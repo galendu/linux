@@ -153,5 +153,7 @@ iptables -t nat -A POSTROUTING -s 192.168.1.0/24 -o eth0 -j MASQUERADE
 service iptables save
 service iptables restart
 # 重启ipsec
+```
 ipsec setup restart
 ipsec verify
+```
