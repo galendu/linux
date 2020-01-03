@@ -157,3 +157,7 @@ service iptables restart
 ipsec setup restart
 ipsec verify
 ```
+```
+netstat -tunlp| grep 1701
+udp        0      0 192.168.0.167:1701      0.0.0.0:*                           9784/xl2tpd  
+```
