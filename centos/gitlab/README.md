@@ -6,7 +6,6 @@ wget -O /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaw
 && chmod +x /usr/local/bin/gitlab-runner 
 
 useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash 
-usermod -aG docker gitlab-runner 
 gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner 
 gitlab-runner start
 
@@ -18,4 +17,15 @@ zkFkyXsCxda_hkpxhRs4
 
 yum -y install git maven
 ```
+### 3.为gitlab-runner用户授权
+```
+usermod -aG docker gitlab-runner
+gpasswd -a gitlab-runner root
+```
+### 4.配置需要操作目录的权限，比如你的 runner 要在 gaming 目录下操作：
+```
+chmod 775 gaming
+```
 ### 3.gitlab-ci/cd脚本编写
+
+
