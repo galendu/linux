@@ -26,6 +26,13 @@ gpasswd -a gitlab-runner root
 ```
 chmod 775 gaming
 ```
+删除注册信息：
+
+gitlab-ci-multi-runner unregister --name "名称"
+查看注册列表：
+
+gitlab-ci-multi-runner list
+
 ### 3.gitlab-ci/cd脚本编写
 
 
