@@ -18,5 +18,5 @@ gzip_vary on # 表示是否发送 Vary：Accept_Encoding 响应头字段，实�
 
 application/vnd.ms-fontobject image/x-icon;  #gip 压缩类型；
 
-gzip_disable “msie6”;  #关闭 IE6 的压缩。
+gzip_disable "msie6";  #关闭 IE6 的压缩。
 ```
