@@ -72,6 +72,9 @@
 - 问题二：Shell 的远程执行命令方式是什么？
 
 - 答案：当 Shell 进行远程执行命令时，通常通过 ssh xx@xxx.xxx.xxx.xxx /home/ieson/imoocc.sh 参数的方式，但如果是批量主机任务，建议选择 ansible、saltstack 这样成熟且专业的工具实现。
+```bash
+ssh root@ip 'bash /path/a.sh'
+```
 
 - 问题三：Shell 适合用在什么场景中？
 
