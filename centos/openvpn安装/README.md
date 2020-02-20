@@ -1,0 +1,9 @@
+## 1.安装脚本
+```bash
+wget https://git.io/vpn -O openvpn-install.sh && bash openvpn-install.sh
+```
+## 2.客户端安装
+[win10客户端下载地址](https://swupdate.openvpn.org/community/releases/openvpn-install-2.4.8-I602-Win10.exe)
+[win7客户端下载地址](https://swupdate.openvpn.org/community/releases/openvpn-install-2.4.8-I602-Win7.exe)
+[tar.gz文件下载，适用于ubuntu等linux系统](https://swupdate.openvpn.org/community/releases/openvpn-2.4.8.tar.gz)
+## 3.连接教程
