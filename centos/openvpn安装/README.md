@@ -1,7 +1,7 @@
 ## 1.安装脚本
 ```bash
-wget  -O openvpn-install.sh && 
-unzip 
+wget  https://github.com/yundd/linux/files/4228844/open-vpn-install.zip
+unzip open-vpn-install.zip
 bash openvpn-install.sh
 ```
 ## 2.客户端安装
