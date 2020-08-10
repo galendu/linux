@@ -22,3 +22,6 @@ ln -s /usr/local/application/nodejs/bin/node /usr/local/bin/
 node -v && echo "success"
 ```
 
+## 处理npm ERR! Unexpected end of JSON input while parsing near ...
+
+`npm cache clean --force`
