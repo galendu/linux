@@ -1,0 +1,14 @@
+input {
+    beats {
+        port => 5044
+    }
+}
+output {
+    stdout {
+      codec => rubydebug
+    }
+    elasticsearch {
+    	hosts => ["http://elk-elasticsearch:9200"]
+    	index => "@%{[fields][project]}-@%{[fields][name]}-%{+YYYY.MM.dd}"
+    }
+}
