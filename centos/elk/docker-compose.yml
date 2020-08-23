@@ -1,0 +1,93 @@
+version: '2.2'
+services:
+  kibana:
+    image: kibana:7.7.1
+    container_name: elk-kibana
+    restart: always
+    environment:
+      - I18N_LOCALE=zh-CN
+      - XPACK_GRAPH_ENABLED=true
+      - TIMELION_ENABLED=true
+      - XPACK_MONITORING_COLLECTION_ENABLED="true"
+      - ELASTICSEARCH_HOSTS="http://elk-elasticsearch:9200"
+    logging:
+      options:
+        max-size: '5g'
+        max-file: '1'
+      driver: json-file
+    ports:
+      - "15601:5601"
+    expose:
+      - "5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      elknet:
+        aliases:
+          - elk-kibana
+  logstash:
+    image: logstash:7.7.1
+    container_name: elk-logstash
+    restart: always
+    environment:
+      - XPACK_MONITORING_ELASTICSEARCH_HOSTS="http://elk-elasticsearch:9200"
+      - XPACK_MONITORING_ENABLED=TRUE
+    logging:
+      options:
+        max-size: '5g'
+        max-file: '1'
+      driver: json-file
+    volumes:
+      - ./logstash/conf/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./logstash/template/elasticsearch1.json:/opt/logstash/elasticsearch1.json
+    ports:
+      - "15043:5043"
+      - "15044:5044"
+      - "15045:5045"
+    expose:
+      - "9600"
+      - "5044"
+      - "5043"
+      - "5045"
+    depends_on:
+      - elasticsearch
+    networks:
+      elknet:
+        aliases:
+          - elk-logstash
+  elasticsearch:
+    image: elasticsearch:7.7.1
+    container_name: elk-elasticsearch
+    restart: always
+    environment:
+      - node.name=elk-elasticsearch
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    logging:
+      options:
+        max-size: '5g'
+        max-file: '1'
+      driver: json-file
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    expose:
+      - "9200"
+      - "9300"
+    networks:
+      elknet:
+        aliases:
+          - elk-elasticsearch
+
+volumes:
+  elasticsearch_data:
+    driver: local
+
+networks:
+  elknet:
