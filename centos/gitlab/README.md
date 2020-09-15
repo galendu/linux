@@ -35,4 +35,9 @@ gitlab-runner unregister --name "名称"
 
 ### 3.gitlab-ci/cd脚本编写
 
-
+### 4.开启runner并发
+设置并发数：
+```
+vim /etc/gitlab-runner/config.toml
+concurrent = 1 #默认是1
+```
