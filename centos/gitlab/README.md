@@ -33,11 +33,20 @@ gitlab-runner list
 
 gitlab-runner unregister --name "名称"
 
-### 3.gitlab-ci/cd脚本编写
-
-### 4.开启runner并发
+### 5.开启runner并发
 设置并发数：
 ```
 vim /etc/gitlab-runner/config.toml
 concurrent = 1 #默认是1
+```
+### 6.安装相关软件
+- yarn
+```
+npm install -g yarn --registry=https://registry.npm.taobao.org
+yarn config set registry https://registry.npm.taobao.org -g
+yarn config set sass_binary_site http://cdn.npm.taobao.org/dist/node-sass -g
+```
+- cnmp
+```
+npm install -g cnpm --registry=https://registry.npm.taobao.org
 ```
