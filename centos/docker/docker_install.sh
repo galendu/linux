@@ -13,6 +13,7 @@ tee /etc/docker/daemon.json <<-'EOF'
                        "https://reg-mirror.qiniu.com",
                        "https://fz5yth0r.mirror.aliyuncs.com"
                         ],
+  "exec-opts": ["native.cgroupdriver=systemd"],
   "graph": "/data/docker",
   "log-driver": "json-file",
   "log-opts": {
