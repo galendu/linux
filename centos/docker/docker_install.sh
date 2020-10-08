@@ -14,7 +14,6 @@ tee /etc/docker/daemon.json <<-'EOF'
                        "https://fz5yth0r.mirror.aliyuncs.com"
                         ],
   "graph": "/data/docker",
-  "exec-opts": ["native.cgroupdriver=systemd"],
   "log-driver": "json-file",
   "log-opts": {
   "max-size": "100m" },
