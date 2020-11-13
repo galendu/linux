@@ -17,7 +17,9 @@ tee /etc/docker/daemon.json <<-'EOF'
   "graph": "/data/docker",
   "log-driver": "json-file",
   "log-opts": {
-  "max-size": "100m" },
+  "max-size": "100m",
+  "max-file":"3"
+  },
   "storage-driver": "overlay2"
 }
 EOF
