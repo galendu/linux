@@ -1,5 +1,8 @@
-FROM nginx:1.14-alpine
-LABLE maintainer="Os4Top16 <os4top16@qq.com>"
+FROM nginx:${nginx_tag}
+
+ARG nginx_tag="1.14-alpine"
+    author="Os4Top16 <os4top16@qq.com>"
+LABLE maintainer="${author}"
 
 ENV NGX_DOC_ROOT='/data/web/html'
 ADD index.html ${NGX_DOC_ROOT}
