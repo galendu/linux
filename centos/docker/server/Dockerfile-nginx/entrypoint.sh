@@ -7,3 +7,5 @@ cat > /etc/nginx/conf.d/www.conf << EOF
     root ${NGX_DOC_ROOT:-/usr/share/nginx/html};
 }
 EOF
+
+exec "$@"
