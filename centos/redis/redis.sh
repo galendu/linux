@@ -2,7 +2,7 @@
 # auth os4top16
 # redis 三节点高可用 vip自动绑定到redis master节点
 # 卸载 yum -y remove   redis epel-release remi &&  rm -rf /etc/redis* && rm -rf /var/lib/redis
-PASSWD='1234Qwer#('
+PASSWD='password'
 MASTERIP='192.168.0.42'
 REDISPORT='6379'  #
 REDISDIR='/etc/redis.conf'
