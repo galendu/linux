@@ -1,1 +1,19 @@
 ## redis
+
+### redis客户端
+
+Another-Redis-Desktop-Manager
+
+### redis清理缓存
+
+1.redis根目录调出命令行（cmd）
+
+2.登录redis：redis-cli -h 127.0.0.1 -p 6379
+
+3.查看所有key值：keys *
+
+4.删除指定索引的值：del key
+
+5.清空整个 Redis 服务器的数据：flushall 
+
+6.清空当前库中的所有 key：flushdb 
