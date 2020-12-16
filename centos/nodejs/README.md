@@ -25,3 +25,8 @@ node -v && echo "success"
 ## 处理npm ERR! Unexpected end of JSON input while parsing near ...
 
 `npm cache clean --force`
+
+## 处理  EACCES: permission denied, mkdir '/node_modules/node-sass/build' while running npm install on ubuntu
+`npm config set user 0 
+
+npm config set unsafe-perm true `
