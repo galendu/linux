@@ -27,6 +27,8 @@ node -v && echo "success"
 `npm cache clean --force`
 
 ## 处理  EACCES: permission denied, mkdir '/node_modules/node-sass/build' while running npm install on ubuntu
-`npm config set user 0 
+```bash
+npm config set user 0 
 
-npm config set unsafe-perm true `
+npm config set unsafe-perm true 
+```
