@@ -50,3 +50,9 @@ yarn config set sass_binary_site http://cdn.npm.taobao.org/dist/node-sass -g
 ```
 npm install -g cnpm --registry=https://registry.npm.taobao.org
 ```
+
+### 配置gitlab-runner用户使用sudo权限不输出密码
+```bash
+#visudo 
+gitlab-runner ALL=(ALL) NOPASSWD: ALL
+```
