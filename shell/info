@@ -1,0 +1,56 @@
+#!/bin/bash
+##############################################
+# $Id: shell.xml 449 2012-08-10 10:38:08Z netkiller $
+# Author: Neo <netiller@msn.com>
+# Home : http://netkiler.github.io
+# Project: https://github.com/oscm/shell
+##############################################
+NAME=info
+BASEDIR='/www'
+LOGFILE=/var/tmp/$NAME.log
+PIDFILE=/var/tmp/$NAME.pid
+##############################################
+BASH=/bin/bash
+##############################################
+#echo $$
+#echo $BASHPID
+function start(){
+	if [ -f "$PIDFILE" ]; then
+		echo $PIDFILE
+		exit 2
+	fi
+
+	for (( ; ; ))
+	do
+		cd $BASEDIR/$(basename $0)
+                
+		$BASH test.sh > $LOGFILE
+		#$BASH chart_gold_silver_xml.php > /dev/null
+		sleep 60
+	done &
+	echo $! > $PIDFILE
+}
+function stop(){
+  	[ -f $PIDFILE ] && kill `cat $PIDFILE` && rm -rf $PIDFILE
+}
+
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  status)
+  	ps ax | grep $(basename $0) | grep -v grep | grep -v status
+	;;
+  restart)
+  	stop
+	start
+	;;
+  *)
+	echo $"Usage: $0 {start|stop|status|restart}"
+	exit 2
+esac
+
+exit $?
