@@ -84,3 +84,4 @@ echo "-------------------开始安装基础工具----------------------"
 #yum groupinstall -y "debuging tools"
 #yum groupinstall -y "development tools"
 #yum install -y deltarpm gcc gcc-c++ make cmake autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel libaio readline-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5-devel libidn libidn-devel openssl openssl-devel libxslt-devel libicu-devel libevent-devel libtool libtool-ltdl bison gd-devel vim-enhanced pcre-devel zip unzip ntpdate patch bc expect rsync git lsof vim telnet tree nmap sysstat lrzsz dos2unix iotop iftop nethogs nload net-tools bash-completion sshpass
+#yum -y install bind-utils
