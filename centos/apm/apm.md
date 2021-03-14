@@ -1,4 +1,4 @@
-### 不同apm对比 (不包含elasticsearch apm-server)
+##  不同apm功能对比 (不包含elasticsearch apm-server)
 ![image](https://user-images.githubusercontent.com/42687725/111058269-59367980-84c8-11eb-94b4-54aa8c6b5392.png)
 
 #### 1.jaeger(已经测试)
