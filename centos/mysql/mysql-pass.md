@@ -28,3 +28,9 @@ gunzip < *.tar.gz |mysql --login-path=mydb
 ```sql
  mysql --login-path=mydb -e "show databases;"
 ```
+
+## 授权
+
+```sql
+GRANT SELECT ON *.* TO 'tadpole_select'@'192.168.%.%';
+```
