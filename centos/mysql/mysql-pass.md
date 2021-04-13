@@ -21,3 +21,10 @@ mysqldump  --login-path=mydb  --all-databases  --single-transaction --set-gtid-p
 
 gunzip < *.tar.gz |mysql --login-path=mydb 
 ```
+
+
+## mysql非交互式运行sql
+
+```sql
+ mysql --login-path=mydb -e "show databases;"
+```
