@@ -15,6 +15,7 @@ IPADDR=192.168.1.150
 PREFIX=24
 ONBOOT=yes
 BOOTPROTO=none
+#mode=1表示主备模式，mode=0表示负载均衡模式
 BONDING_OPTS="mode=1 miimon=100"
 
 #查看uuid 
