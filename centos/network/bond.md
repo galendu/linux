@@ -17,7 +17,9 @@ ONBOOT=yes
 BOOTPROTO=none
 BONDING_OPTS="mode=1 miimon=100"
 
-
+#查看uuid 
+nmcli con show
+#查看mac地址
 vi /etc/sysconfig/network-scripts/ifcfg-enp0s8
 HWADDR="08:00:27:04:03:86"
 TYPE="Ethernet"
