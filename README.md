@@ -1,6 +1,6 @@
-# linux
-command
-netstat
+# linux  
+command  
+netstat  
 Netstat用于显示与IP、TCP、UDP和ICMP协议相关的统计数据，一般用于检验本机各端口的网络连接情况。
 
 常见用法：
