@@ -68,4 +68,25 @@ nmcli con reload
 #重启网卡
 systemctl restart network
 
+#测试网络绑定
+cat /proc/net/bonding/bond0
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#为bond0配置多个IP地址
+
+cp /etc/sysconfig/network-scripts/ifcfg-bond0 /etc/sysconfig/network-scripts/ifcfg-bond0:1
+vi /etc/sysconfig/network-scripts/ifcfg-bond0:1
+DEVICE=bond0:1
+NAME=bond0
+TYPE=Bond
+BONDING_MASTER=yes
+IPADDR=192.168.1.151
+PREFIX=24
+ONBOOT=yes
+BOOTPROTO=none
+BONDING_OPTS="mode=1 miimon=100"
+
+systemctl restart network
+ip a
 ```
