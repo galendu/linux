@@ -19,6 +19,7 @@ yum -y install git maven
 ```
 ### 3.为gitlab-runner用户授权
 ```
+useradd docker
 usermod -aG docker gitlab-runner
 gpasswd -a gitlab-runner root
 ```
