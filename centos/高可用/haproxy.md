@@ -1,4 +1,9 @@
-[参考]("https://mp.weixin.qq.com/s/hDmkqSXyDs0VUe6pg6TLuA")
+[摘抄](https://mp.weixin.qq.com/s/hDmkqSXyDs0VUe6pg6TLuA)  
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=o2zGUnL3tP8
+" target="_blank"><img src="http://img.youtube.com/vi/o2zGUnL3tP8/1.jpg" 
+alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+
 ## 配置sysctl
 ```bash
 net.ipv4.tcp_tw_reuse = 1
