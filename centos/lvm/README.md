@@ -27,6 +27,7 @@ reduce减少		vgreduce	lvreduce
 ### 1.创建并使用LVM逻辑卷
 ```
 fdisk /dev/sdd
+#报错 硬盘忙,解决方法 partprobe /dev/sdd
 lsblk
 pvcreate /dev/sdd1
 vgcreate data /dev/sdd1
