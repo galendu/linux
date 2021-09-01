@@ -1,14 +1,26 @@
-steps:
-  - uses: ddradar/choose-random-action@v1
-    id: act # required to reference output
-    with:
-      contents: |
-        foo
-        bar
-        baz
-      weights: |
-        2
-        3
-        5
-  - name: Echo outputs
-    run: echo ${{ steps.act.outputs.selected }} # foo: 20%, bar: 30%, baz: 50%
+
+name: pull images
+
+on:
+  push:
+    paths:
+      - '.github/workflows/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: pull
+      run: |
+        docker build -f centos/docker/dockerfile/Dockerfile-jenkins -t jenkins:v1 .
+        docker save jenkins:v1 -o jenkins.tar
+        mkdir artifacts
+        mv jenkins.tar artifacts/
+        
+       
+    - uses: actions/upload-artifact@v2
+      with: 
+        name: artifacts
+        path:  artifacts/*
