@@ -14,13 +14,14 @@ jobs:
 
     - name: pull
       run: |
-        docker build -f centos/docker/dockerfile/Dockerfile-jenkins -t jenkins:v1 .
-        docker save jenkins:v1 -o jenkins.tar
-        mkdir artifacts
-        mv jenkins.tar artifacts/
+        docker login -u ${{ secrets.DOCKER_USER}} -p ${{ secrets.DOCKER_PASSWORD}} docker.io
+        docker build -f centos/docker/dockerfile/Dockerfile-jenkins -t 9512220/jenkins:jenkins-python3 .
+        docker push 9512220/jenkins:jenkins-python3
+        #mkdir artifacts
+        #mv jenkins.tar artifacts/
         
        
-    - uses: actions/upload-artifact@v2
-      with: 
-        name: artifacts
-        path:  artifacts/*
+#     #- uses: actions/upload-artifact@v2
+#       with: 
+#         name: artifacts
+#         path:  artifacts/*
