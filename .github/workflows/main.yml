@@ -5,7 +5,9 @@ on:
   push:
     paths:
       - '.github/workflows/**'
-
+  watch:
+    types: started
+    
 jobs:
   build:
     runs-on: ubuntu-18.04
