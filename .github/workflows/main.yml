@@ -2,11 +2,11 @@
 name: docker build 
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - '.github/workflows/**'
-  watch:
-    types: started
+  
     
 jobs:
   build:
