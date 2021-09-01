@@ -1,2 +1,3 @@
 FROM jenkins/jenkins:2.202
+USER root
 RUN apt-get update && apt-get install -y python3
