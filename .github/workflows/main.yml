@@ -9,6 +9,14 @@ on:
   
     
 jobs:
+
+  printInputs:
+    runs-on: ubuntu-18.04
+    steps:
+    - run: |
+        echo "Log level: ${{ github.event.inputs.logLevel }}"
+        echo "Tags: ${{ github.event.inputs.tags }}"
+        
   build:
     runs-on: ubuntu-18.04
     steps:
@@ -22,8 +30,9 @@ jobs:
         docker  push 9512220/k8s-descheduler:v0.22.0
         #mkdir artifacts
         #mv jenkins.tar artifacts/
+
+
         
-       
 #     #- uses: actions/upload-artifact@v2
 #       with: 
 #         name: artifacts
