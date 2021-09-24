@@ -11,9 +11,9 @@ on:
       tags:
         description: 'Test scenario tags' 
 
-  push:
-    paths:
-      - '.github/workflows/**'
+#   push:
+#     paths:
+#       - '.github/workflows/**'
 
 
 
@@ -30,7 +30,6 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/core@v1
 
     - name: pull
       run: |
@@ -41,9 +40,6 @@ jobs:
         #mkdir artifacts
         #mv jenkins.tar artifacts/
 
-# @actions/exec, 执行命令
-# @actions/core, 输入、输出、日志、秘钥相关
-# @actions/io, 操作文件
         
 #     #- uses: actions/upload-artifact@v2
 #       with: 
