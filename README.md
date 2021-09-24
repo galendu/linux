@@ -1,3 +1,4 @@
+[![docker build](https://github.com/jafardu/linux/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/jafardu/linux/actions/workflows/main.yml)
 # linux  
 command  
 netstat  
