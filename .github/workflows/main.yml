@@ -13,30 +13,13 @@ on:
         description: '服务名称'
       tag_name:
         description: '镜像tag'
-        
-        
-#       logLevel:
-#         description: 'Log level'     
-#         required: true
-#         default: 'warning'
-#       tags:
-#         description: 'Test scenario tags' 
 
 #   push:
 #     paths:
 #       - '.github/workflows/**'
 
 
-
-jobs:
-
-#   printInputs:
-#     runs-on: ubuntu-18.04
-#     steps:
-#     - run: |
-#         echo "Log level: ${{ github.event.inputs.logLevel }}"
-#         echo "Tags: ${{ github.event.inputs.tags }}"
-        
+jobs:        
   build:
     runs-on: ubuntu-18.04
     steps:
