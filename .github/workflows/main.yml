@@ -30,6 +30,7 @@ jobs:
         docker login -u ${{ secrets.ALI_USER}} -p ${{ secrets.ALI_PASSWORD}} registry.cn-beijing.aliyuncs.com
         docker pull ${{ github.event.inputs.oldimage_name }}
         docker tag ${{ github.event.inputs.oldimage_name }}  ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
+        echo  ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
         docker  push ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
         #mkdir artifacts
         #mv jenkins.tar artifacts/
