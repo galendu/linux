@@ -8,7 +8,7 @@ on:
         description: '旧镜像名称'
       imges_url:
         description: '镜像仓库'
-        default: '9512220'
+        default: 'registry.cn-beijing.aliyuncs.com'
       server_name:
         description: '服务名称'
       tag_name:
@@ -27,7 +27,7 @@ jobs:
 
     - name: pull
       run: |
-        docker login -u ${{ secrets.DOCKER_USER}} -p ${{ secrets.DOCKER_PASSWORD}} docker.io
+        docker login -u ${{ secrets.ALI_USER}} -p ${{ secrets.ALI_PASSWORD}} registry.cn-beijing.aliyuncs.com
         docker pull ${{ github.event.inputs.oldimage_name }}
         docker tag ${{ github.event.inputs.oldimage_name }}  ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
         docker  push ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
