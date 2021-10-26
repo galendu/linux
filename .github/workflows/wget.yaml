@@ -17,11 +17,11 @@ jobs:
     - name: 下载文件
       run: |
         curl -o ${{ github.event.inputs.file_name }} ${{ github.event.inputs.url }}
-        mkdir artifacts
-        mv ${{ github.event.inputs.file_name }} artifacts/
+        #mkdir artifacts
+        #mv ${{ github.event.inputs.file_name }} artifacts/
     
 
     - uses: actions/upload-artifact@v2
       with: 
-        name: 将文件保存到制品库
+        name: artifacts
         path:  artifacts/*
