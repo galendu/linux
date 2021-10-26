@@ -18,7 +18,7 @@ jobs:
       run: |
         curl -o ${{ github.event.inputs.file_name }} ${{ github.event.inputs.url }}
         mkdir artifacts
-        mv ${{ github.event.inputs.file_name }} artifacts/${{ github.event.inputs.file_name }}
+        mv ${{ github.event.inputs.file_name }} artifacts/
     
 
     - uses: actions/upload-artifact@v2
