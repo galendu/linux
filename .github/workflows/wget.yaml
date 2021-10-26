@@ -1,0 +1,27 @@
+name: 文件下载
+on:
+  workflow_dispatch:     
+    inputs:
+      url:
+        description: '文件下载地址'
+      file_name:
+        description: '输出文件名'
+        default: 'file.tar.gz'
+
+
+jobs:        
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: 下载文件
+      run: |
+        curl -o ${{ github.event.inputs.file_name }} ${{ github.event.inputs.url }}
+        mkdir artifacts
+        mv ${{ github.event.inputs.file_name }} artifacts/${{ github.event.inputs.file_name }}
+    
+
+    - uses: actions/upload-artifact@v2
+      with: 
+        name: 将文件保存到制品库
+        path:  artifacts/*
