@@ -1,5 +1,5 @@
 
-name: 构建docker镜像
+name: 将镜像上传到个人私有镜像仓库
 
 on:
   workflow_dispatch:     
@@ -34,6 +34,7 @@ jobs:
         docker  push ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
         #mkdir artifacts
         #mv jenkins.tar artifacts/
+
 
         
 #     #- uses: actions/upload-artifact@v2
