@@ -1,0 +1,35 @@
+name: 将镜像上传到个人华为私有镜像仓库
+
+on:
+  workflow_dispatch:     
+    inputs:
+      oldimage_name:
+        description: '旧镜像名称'
+      imges_url:
+        description: '镜像仓库'
+        default: 'swr.cn-north-1.myhuaweicloud.com'
+      server_name:
+        description: '服务名称'
+      tag_name:
+        description: '镜像tag'
+
+#   push:
+#     paths:
+#       - '.github/workflows/**'
+
+
+jobs:        
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: pull
+      run: |
+        docker login -u ${{ secrets.HUAWEI_USER}} -p ${{ secrets.HUAWEI_PASSWORD}} ${{ github.event.inputs.imges_url }}
+        docker pull ${{ github.event.inputs.oldimage_name }}
+        docker tag ${{ github.event.inputs.oldimage_name }}  ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
+        echo  ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
+        docker  push ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
+        #mkdir artifacts
+        #mv jenkins.tar artifacts/
