@@ -28,6 +28,6 @@ jobs:
         docker buildx version
         docker buildx create --use --name mybuilder
         docker buildx ls
-        docker buildx build -t registry.cn-beijing.aliyuncs.com/duxiao/netshoot:v1.0 --platform=linux/arm64,linux/amd64 . push
+        docker buildx build -t registry.cn-beijing.aliyuncs.com/duxiao/netshoot:v1.0 --platform=linux/arm64,linux/amd64 . --push
     - name: test
       run: docker images
