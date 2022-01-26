@@ -17,9 +17,17 @@ jobs:
     - name: 拉去代码
       run: |
         git clone https://github.com/nicolaka/netshoot.git
-        pwd
-        docker run    --name test -d    --rm     --privileged     -v /home/runner/work/linux/linux/netshoot:/tmp/work     --entrypoint buildctl-daemonless.sh     moby/buildkit:master         build     -t netshoot:v1 --platform=linux/arm64,linux/amd64    --frontend dockerfile.v0         --local context=/tmp/work         --local dockerfile=/tmp/work
-        while true;do docker ps |grep test && sleep 10 ||break;done
+        cd netshoot
+        wget https://github.com/docker/buildx/releases/download/v0.7.1/buildx-v0.7.1.linux-amd64
+        mv buildx-v0.7.1.linux-amd64 docker-buildx
+        mkdir ~/.docker/cli-plugins/
+        mv docker-buildx ~/.docker/cli-plugins/docker-buildx
+        chmod +x ~/.docker/cli-plugins/docker-buildx
+        docker run --privileged --rm tonistiigi/binfmt --install all
+        docker buildx version
+        docker buildx create --use --name mybuilder
+        docker buildx ls
+        docker buildx build -t netshoot:v1.0 --platform=linux/arm64,linux/amd64 .
         
     - name: test
       run: docker images
