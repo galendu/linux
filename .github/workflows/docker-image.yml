@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: 拉去代码
+      run: |
+        git clone https://github.com/nicolaka/netshoot.git
+        docker run     -it     --rm     --privileged     -v $PWD/netshoot:/tmp/work     --entrypoint buildctl-daemonless.sh     moby/buildkit:master         build         --frontend dockerfile.v0         --local context=/tmp/work         --local dockerfile=/tmp/work
+    - name: test
+      run: docker images
