@@ -19,9 +19,7 @@ jobs:
         docker login -u ${{ secrets.ALI_USER}} -p ${{ secrets.ALI_PASSWORD}} registry.cn-hangzhou.aliyuncs.com/duxiao
         git clone https://github.com/nicolaka/netshoot.git
         cd netshoot
-        sed -i '60i\tcping \\' Dockerfile
-        cat Dockerfile 
-        exit
+        sed -i '60i\     \\' Dockerfile
         wget https://github.com/docker/buildx/releases/download/v0.7.1/buildx-v0.7.1.linux-amd64
         mv buildx-v0.7.1.linux-amd64 docker-buildx
         mkdir ~/.docker/cli-plugins/
@@ -31,6 +29,6 @@ jobs:
         docker buildx version
         docker buildx create --use --name mybuilder
         docker buildx ls
-        docker buildx build -t registry.cn-hangzhou.aliyuncs.com/duxiao/netshoot:v1.0 --platform=linux/arm64,linux/amd64 . --push
+        docker buildx build -t registry.cn-hangzhou.aliyuncs.com/duxiao/netshoot:v1.1 --platform=linux/arm64,linux/amd64 .  --push
     - name: test
       run: docker images
