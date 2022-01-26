@@ -18,7 +18,7 @@ jobs:
       run: |
         git clone https://github.com/nicolaka/netshoot.git
         pwd
-        docker run     -it    --rm     --privileged     -v $PWD/netshoot:/tmp/work     --entrypoint buildctl-daemonless.sh     moby/buildkit:master         build         --frontend dockerfile.v0         --local context=/tmp/work         --local dockerfile=/tmp/work
+        docker run     -it    --rm     --privileged     -v /home/runner/work/linux/linux/netshoot:/tmp/work     --entrypoint buildctl-daemonless.sh     moby/buildkit:master         build         --frontend dockerfile.v0         --local context=/tmp/work         --local dockerfile=/tmp/work
         
     - name: test
       run: docker images
