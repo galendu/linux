@@ -14,12 +14,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: 拉去代码
+    - name: 拉取代码
       run: |
         docker login -u ${{ secrets.ALI_USER}} -p ${{ secrets.ALI_PASSWORD}} registry.cn-hangzhou.aliyuncs.com/duxiao
         git clone https://github.com/nicolaka/netshoot.git
         cd netshoot
-        sed -i '60i\tcping \' Dockerfile
+        sed -i '60i\tcping \\\' Dockerfile
         cat Dockerfile 
         exit
         wget https://github.com/docker/buildx/releases/download/v0.7.1/buildx-v0.7.1.linux-amd64
