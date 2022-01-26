@@ -19,8 +19,10 @@ jobs:
         docker login -u ${{ secrets.ALI_USER}} -p ${{ secrets.ALI_PASSWORD}} registry.cn-hangzhou.aliyuncs.com/duxiao
         git clone https://github.com/nicolaka/netshoot.git
         cd netshoot
-        sed -i '18i\    && wget http://www.vdberg.org/~richard/tcpping -O /usr/bin/tcping  \\' Dockerfile
-        sed -i '19i\    && chmod +x /usr/bin/tcping \\' Dockerfile
+        pwd
+        mv ../centos/ssh-server/Dockerfile-net-sshd Dockerfile
+        cat Dockerfile
+        exit
         wget https://github.com/docker/buildx/releases/download/v0.7.1/buildx-v0.7.1.linux-amd64
         mv buildx-v0.7.1.linux-amd64 docker-buildx
         mkdir ~/.docker/cli-plugins/
