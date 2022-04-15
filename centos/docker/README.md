@@ -90,3 +90,7 @@ systemctl daemon-reload systemctl restart docker
 service auditd restart
 ```
 
+
+## docker 离线包下载位置
+
+https://download.docker.com/linux/static/stable/x86_64/
