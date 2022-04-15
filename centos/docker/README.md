@@ -6,8 +6,10 @@ sudo yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/ce
 - Step 3: 更新并安装Docker-CE
 sudo yum makecache fast  
 sudo yum -y install docker-ce  
-- Step 4: 开启Docker服务
+- Step 4: 开启Docker服务  
 sudo service docker start
+- Step 5: 离线安装包  
+https://download.docker.com/linux/static/stable/x86_64/
 
 > 注意：
 官方软件源默认启用了最新的软件，您可以通过编辑软件源的方式获取各个版本的软件包。例如官方并没有将测试版本的软件源置为可用，您可以通过以下方式开启。同理可以开启各种测试版本等。
@@ -89,8 +91,3 @@ systemctl daemon-reload systemctl restart docker
 
 service auditd restart
 ```
-
-
-## docker 离线包下载位置
-
-https://download.docker.com/linux/static/stable/x86_64/
