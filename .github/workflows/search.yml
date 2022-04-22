@@ -1,0 +1,31 @@
+name: 镜像查询
+
+on:
+  workflow_dispatch:     
+    inputs:
+      image_name:
+        description: '鏡像名稱'
+      oldimage_name:
+        description: '旧镜像名称'
+      imges_url:
+        description: '镜像仓库'
+        default: 'registry.cn-beijing.aliyuncs.com/duxiao'
+      server_name:
+        description: '服务名称'
+      tag_name:
+        description: '镜像tag'
+
+#   push:
+#     paths:
+#       - '.github/workflows/**'
+
+
+jobs:        
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: pull
+      run: |
+        docker search $${{ github.event.inputs.image_name }}
