@@ -1,10 +1,10 @@
-name: 将镜像上传到个人华为私有镜像仓库
+name: 拉取镜像到本地
 
 on:
   workflow_dispatch:     
     inputs:
       oldimage_name:
-        description: '旧镜像名称'
+        description: '镜像名称'
       imges_url:
         description: '镜像仓库'
         default: 'swr.cn-north-1.myhuaweicloud.com/cmsp'
@@ -27,7 +27,7 @@ jobs:
     - name: 拉取镜像并下载到本地
       run: |
         docker pull ${{ github.event.inputs.oldimage_name }}
-        docker save ${{ github.event.inputs.oldimage_name }} -o {{ github.event.inputs.server_name }}.tar
+        docker save ${{ github.event.inputs.oldimage_name }} -o ${{ github.event.inputs.server_name }}.tar
         #mkdir artifacts
         #mv jenkins.tar artifacts/
-        mv {{ github.event.inputs.server_name }}.tar artifacts/
+        mv ${{ github.event.inputs.server_name }}.tar artifacts/
