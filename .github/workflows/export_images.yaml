@@ -28,8 +28,7 @@ jobs:
       run: |
         docker pull ${{ github.event.inputs.oldimage_name }}
         docker save ${{ github.event.inputs.oldimage_name }} -o ${{ github.event.inputs.server_name }}.tar
-        #mkdir artifacts
-        #mv jenkins.tar artifacts/
+        mkdir artifacts
         mv ${{ github.event.inputs.server_name }}.tar artifacts/
 
     - uses: actions/upload-artifact@v2
