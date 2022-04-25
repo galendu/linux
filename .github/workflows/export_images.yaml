@@ -31,3 +31,8 @@ jobs:
         #mkdir artifacts
         #mv jenkins.tar artifacts/
         mv ${{ github.event.inputs.server_name }}.tar artifacts/
+
+    - uses: actions/upload-artifact@v2
+      with: 
+        name: artifacts
+        path:  artifacts/*
