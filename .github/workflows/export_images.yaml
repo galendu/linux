@@ -24,12 +24,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: pull
+    - name: 拉取镜像并下载到本地
       run: |
-        docker login -u ${{ secrets.HUAWEI_USER}} -p ${{ secrets.HUAWEI_PASSWORD}} ${{ github.event.inputs.imges_url }}
         docker pull ${{ github.event.inputs.oldimage_name }}
-        docker tag ${{ github.event.inputs.oldimage_name }}  ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
-        echo  ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
-        docker  push ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
+        docker save ${{ github.event.inputs.oldimage_name }} -o {{ github.event.inputs.server_name }}.tar
         #mkdir artifacts
         #mv jenkins.tar artifacts/
+        mv {{ github.event.inputs.server_name }}.tar artifacts/
