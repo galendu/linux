@@ -7,7 +7,7 @@ on:
         description: '镜像名称'
       imges_url:
         description: '镜像仓库'
-        default: 'swr.cn-north-1.myhuaweicloud.com/cmsp'
+        default: 'test'
       server_name:
         description: '服务名称'
       tag_name:
