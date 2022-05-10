@@ -29,6 +29,7 @@ jobs:
         tar zxvf sealer-v0.8.5-linux-amd64.tar.gz && mv sealer /tmp/
     - name: 拉取镜像并下载到本地
       run: |
+        /tmp/sealer pull ${{ github.event.inputs.oldimage_name }}
         /tmp/sealer save ${{ github.event.inputs.oldimage_name }} -o ${{ github.event.inputs.server_name }}-${{ github.event.inputs.tag_name }}.tar
         mkdir artifacts
         mv ${{ github.event.inputs.server_name }}-${{ github.event.inputs.tag_name }}.tar artifacts/
