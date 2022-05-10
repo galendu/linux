@@ -1,0 +1,41 @@
+name: 拉取镜像到本地
+
+on:
+  workflow_dispatch:     
+    inputs:
+      oldimage_name:
+        description: '镜像名称'
+      imges_url:
+        description: '镜像仓库'
+        default: 'test'
+      server_name:
+        description: '服务名称'
+      tag_name:
+        description: '镜像tag'
+
+#   push:
+#     paths:
+#       - '.github/workflows/**'
+
+
+jobs:        
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: 初始化基础环境
+      run: |
+        wget https://github.com/sealerio/sealer/releases/download/v0.8.5/sealer-v0.8.5-linux-amd64.tar.gz && \
+        tar zxvf sealer-v0.8.5-linux-amd64.tar.gz && mv sealer /usr/bin
+    - name: 拉取镜像并下载到本地
+      run: |
+        
+        cp ../../Dockerfile/sealer-v1 Kubefile
+        sealer build -t registry.cn-qingdao.aliyuncs.com/sealer-io/dashboard:latest .
+        sealer save ${{ github.event.inputs.oldimage_name }} -o ${{ github.event.inputs.server_name }}-${{ github.event.inputs.tag_name }}.tar
+        mkdir artifacts
+        mv ${{ github.event.inputs.server_name }}-${{ github.event.inputs.tag_name }}.tar artifacts/
+    - uses: actions/upload-artifact@v2
+      with: 
+        name: artifacts
+        path:  artifacts/*
