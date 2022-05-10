@@ -1,5 +1,0 @@
-FROM registry.cn-qingdao.aliyuncs.com/sealer-io/kubernetes:v1.19.8
-# download kubernetes dashboard yaml file
-RUN wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
-# when run this CloudImage, will apply a dashboard manifests
-CMD kubectl apply -f recommended.yaml
