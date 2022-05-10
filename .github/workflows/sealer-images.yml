@@ -36,8 +36,8 @@ jobs:
         eof
     - name: 拉取镜像并下载到本地
       run: |
-        sudo /tmp/sealer build -t registry.cn-qingdao.aliyuncs.com/sealer-io/dashboard:latest .
-        sudo /tmp/sealer save ${{ github.event.inputs.oldimage_name }} -o ${{ github.event.inputs.server_name }}-${{ github.event.inputs.tag_name }}.tar
+        sudo sealer build -t registry.cn-qingdao.aliyuncs.com/sealer-io/dashboard:latest .
+        sudo sealer save ${{ github.event.inputs.oldimage_name }} -o ${{ github.event.inputs.server_name }}-${{ github.event.inputs.tag_name }}.tar
         mkdir artifacts
         mv ${{ github.event.inputs.server_name }}-${{ github.event.inputs.tag_name }}.tar artifacts/
     - uses: actions/upload-artifact@v2
