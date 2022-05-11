@@ -29,8 +29,8 @@ jobs:
       run: |
         sudo docker pull ${{ github.event.inputs.oldimage_name }}
         sudo docker save ${{ github.event.inputs.oldimage_name }} -o ${{ github.event.inputs.server_name }}.tar
-        mkdir artifacts
-        mv ${{ github.event.inputs.server_name }}.tar artifacts/
+        sudo mkdir artifacts
+        sudo mv ${{ github.event.inputs.server_name }}.tar artifacts/
 
     - uses: actions/upload-artifact@v2
       with: 
