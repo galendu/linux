@@ -27,8 +27,8 @@ jobs:
 
     - name: 拉取镜像并下载到本地
       run: |
-        docker pull ${{ github.event.inputs.oldimage_name }}
-        docker save ${{ github.event.inputs.oldimage_name }} -o ${{ github.event.inputs.server_name }}.tar
+        sudo docker pull ${{ github.event.inputs.oldimage_name }}
+        sudo docker save ${{ github.event.inputs.oldimage_name }} -o ${{ github.event.inputs.server_name }}.tar
         mkdir artifacts
         mv ${{ github.event.inputs.server_name }}.tar artifacts/
 
