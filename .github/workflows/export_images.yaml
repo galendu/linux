@@ -27,10 +27,14 @@ jobs:
 
     - name: 拉取镜像并下载到本地
       run: |
-        docker pull ${{ github.event.inputs.oldimage_name }}
-        docker save ${{ github.event.inputs.oldimage_name }} -o ${{ github.event.inputs.server_name }}.tar
+        for i in ${{ github.event.inputs.oldimage_name }};
+        do 
+          docker pull $i 
+          name=`echo $i | awk -F ':' '{print $1}'|awk -F '/' '{print $NF}'`
+          docker save $i -o $name.tar 
+        done
         mkdir artifacts
-        mv ${{ github.event.inputs.server_name }}.tar artifacts/
+        mv *.tar artifacts/
 
     - uses: actions/upload-artifact@v2
       with: 
