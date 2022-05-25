@@ -91,3 +91,16 @@ systemctl daemon-reload systemctl restart docker
 
 service auditd restart
 ```
+
+## 6.将go代码打包为docker镜像
+
+#### 安装goctl工具(基础环境:go)
+```shell
+go install github.com/zeromicro/go-zero/tools/goctl@latest
+```
+
+#### 一键编写Dockerfile文件
+```shell
+cd ${project_dir}
+goctl docker -go main.go
+```
