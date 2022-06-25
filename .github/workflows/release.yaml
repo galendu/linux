@@ -22,14 +22,6 @@ jobs:
         with:
           github-token: "${{ secrets.GAP }}"
           script: |
-            try {
-            await github.rest.repos.uploadRelease({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                asset_id: "001",
-                name: "README.md",
-                label: "pkg",
-              });
-            } catch (error) {
-              core.setFailed(error.message)
-            }
+            curl -X POST -H "Accept: application/vnd.github.v3+json" \ 
+            -H "Authorization: token ${{ secrets.GPA }}" \
+            https://api.github.com/repos/jafardu/linux/releases/002/assets
