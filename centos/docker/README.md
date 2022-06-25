@@ -104,3 +104,10 @@ go install github.com/zeromicro/go-zero/tools/goctl@latest
 cd ${project_dir}
 goctl docker -go main.go
 ```
+
+
+#### 解决方案
+```text
+sysctl.conf问题处理方案:
+https://tencentcloudcontainerteam.github.io/2018/11/19/kernel-parameters-and-container/
+```
