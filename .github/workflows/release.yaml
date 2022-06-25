@@ -22,4 +22,4 @@ jobs:
         with:
           github-token: "${{ secrets.GAP }}"
           script: |
-            curl -X POST -H "Accept: application/vnd.github.v3+json"  -H "Authorization: token ${{ secrets.GPA }}"  https://api.github.com/repos/jafardu/linux/releases/002/assets             -d '{"name":"README.md","label":"test pkg"}'
+            curl -X POST -H "Accept: application/vnd.github.v3+json"  -H "Authorization: token ${{ secrets.GAP }}"  https://api.github.com/repos/jafardu/linux/releases/002/assets             -d '{"name":"README.md","label":"test pkg"}'
