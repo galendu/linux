@@ -15,14 +15,15 @@ jobs:
     runs-on: "ubuntu-latest"
 
     steps:
-#       - name: "Determine tag"
-#         run: "echo \"RELEASE_TAG=${GITHUB_REF#refs/tags/}\" >> $GITHUB_ENV"
+      - name: "Determine tag"
+        run: "echo \"RELEASE_TAG=${GITHUB_REF#refs/tags/}\" >> $GITHUB_ENV"
 
       - name: "Create release"
         uses: "actions/github-script@v5"
         with:
           github-token: "${{ secrets.GAP }}"
           script: |
+            
             try {
               await github.rest.repos.createRelease({
                 draft: false,
@@ -31,7 +32,17 @@ jobs:
                 owner: context.repo.owner,
                 prerelease: false,
                 repo: context.repo.repo,
-                tag_name: "001",
+                tag_name: process.env.RELEASE_TAG,
+              });
+              await github.rest.repos.uploadRelease({
+                # draft: false,
+                # generate_release_notes: true,
+                name: "README.md",
+                label: "pkg",
+                # owner: context.repo.owner,
+                # prerelease: false,
+                # repo: context.repo.repo,
+                # tag_name: process.env.RELEASE_TAG,
               });
             } catch (error) {
               core.setFailed(error.message);
