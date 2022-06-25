@@ -22,9 +22,7 @@ jobs:
         with:
           github-token: "${{ secrets.GAP }}"
           script: |
-            
-            try {
-              await github.rest.repos.createRelease({
+            await github.rest.repos.createRelease({
                 draft: false,
                 generate_release_notes: true,
                 name: process.env.RELEASE_TAG,
@@ -34,11 +32,6 @@ jobs:
                 tag_name: 1.1,
               });
               
-            } catch (error) {
-              core.setFailed(error.message);
-            }
-            
-            try {
             await github.rest.repos.uploadRelease({
                 # draft: false,
                 # generate_release_notes: true,
@@ -49,6 +42,3 @@ jobs:
                 # repo: context.repo.repo,
                 # tag_name: process.env.RELEASE_TAG,
               });
-            } catch (error) {
-              core.setFailed(error.message)
-            }
