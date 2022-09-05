@@ -36,6 +36,8 @@ jobs:
         docker buildx ls
         docker buildx build -t registry.cn-hangzhou.aliyuncs.com/duxiao/netshoot:v1.2 --platform=${{ github.event.inputs.cpu_architecture }} .  --push
         docker save registry.cn-hangzhou.aliyuncs.com/duxiao/netshoot:v1.2 -o netshoot.tar
+        mkdir artifacts
+        mv *.tar artifacts/
     - uses: actions/upload-artifact@v2
       with: 
         name: artifacts
