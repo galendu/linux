@@ -18,6 +18,8 @@ jobs:
         git clone https://github.com/nicolaka/netshoot.git
         cd netshoot
         mv ../centos/ssh-server/Dockerfile-net-sshd Dockerfile
+        mv ../centos/ssh-server/entrypoint.sh entrypoint.sh
+        mv ../centos/ssh-server/sshd_config sshd_config
         wget https://github.com/docker/buildx/releases/download/v0.7.1/buildx-v0.7.1.linux-amd64
         mv buildx-v0.7.1.linux-amd64 docker-buildx
         mkdir ~/.docker/cli-plugins/
