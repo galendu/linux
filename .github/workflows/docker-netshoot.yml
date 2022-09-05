@@ -13,8 +13,7 @@ jobs:
     - name: 拉取代码
       run: |
         pwd
-        ls /home/runner/work/linux/centos
-        exit
+        ls /home/runner/work/linux/linux
         docker login -u ${{ secrets.ALI_USER}} -p ${{ secrets.ALI_PASSWORD}} registry.cn-hangzhou.aliyuncs.com/duxiao
         git clone https://github.com/nicolaka/netshoot.git
         cd netshoot
@@ -29,5 +28,8 @@ jobs:
         docker buildx create --use --name mybuilder
         docker buildx ls
         docker buildx build -t registry.cn-hangzhou.aliyuncs.com/duxiao/netshoot:v1.2 --platform=linux/arm64,linux/amd64,linux/arm/v7 .  --push
-    - name: test
-      run: echo test
+        docker save registry.cn-hangzhou.aliyuncs.com/duxiao/netshoot:v1.2 -o netshoot.tar
+    - uses: actions/upload-artifact@v2
+      with: 
+        name: artifacts
+        path:  artifacts/*
