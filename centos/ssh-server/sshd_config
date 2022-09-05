@@ -1,0 +1,12 @@
+LogLevel INFO
+
+PubkeyAuthentication yes
+AuthorizedKeysFile	.ssh/authorized_keys
+
+PasswordAuthentication no
+PermitEmptyPasswords no
+PermitRootLogin no
+
+AllowTcpForwarding yes
+GatewayPorts no
+X11Forwarding no
