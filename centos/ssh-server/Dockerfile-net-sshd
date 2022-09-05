@@ -100,10 +100,9 @@ RUN chmod -R g=u /root
 
 # Running ZSH
 # CMD ["zsh"]
-COPY /home/runner/work/linux/centos/ssh-server/sshd_config /etc/ssh/
+COPY /home/runner/work/linux/linux/centos/ssh-server/sshd_config /etc/ssh/
 COPY motd /etc/
-RUN ls /home/runner/work/linux/centos/ssh-server/
-COPY /home/runner/work/linux/centos/ssh-server/entrypoint.sh /entrypoint.sh
+COPY /home/runner/work/linux/linux/centos/ssh-server/entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 
