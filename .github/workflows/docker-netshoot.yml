@@ -34,7 +34,7 @@ jobs:
         docker buildx version
         docker buildx create --use --name mybuilder
         docker buildx ls
-        docker buildx build -t registry.cn-hangzhou.aliyuncs.com/duxiao/netshoot:v1.2 --platform=${{ github.event.inputs.cpu_architecture }} .  --push
+        docker buildx build -t registry.cn-hangzhou.aliyuncs.com/duxiao/netshoot:v1.2 --platform=linux/amd64,linux/armv7 .  --push
         ls ./*
 
 
