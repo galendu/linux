@@ -97,3 +97,13 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 #visudo 
 gitlab-runner ALL=(ALL) NOPASSWD: ALL
 ```
+
+### 8.配置maven源  
+```bash
+    <mirror>
+           <id>nexus-aliyun</id>
+           <mirrorOf>central</mirrorOf>
+           <name>aliyun mirror</name>
+           <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+      </mirror>
+```
