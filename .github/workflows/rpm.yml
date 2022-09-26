@@ -13,26 +13,8 @@ jobs:
       uses: actions/checkout@v2
     - name: run centos7.9
       run: |
-        echo '''
-        #!/bin/bash
-
-        yum -y install repotrack creatrepo
-        rpms=`yum list all --disablerepo="*" --enablerepo="epel" | grep -Ev "Loaded|Loading|Installed" | awk '{print $1}'`
-
-        mkdir  -p  yum
-
-        for rpm  in ${rpms}
-
-        do
-
-          repotrack  ${rpm}  -p  yum
-
-        done
-
-        creatrepo  -v  yum 
-        tar -zcf  /opt/yum.tar.gz  yum
-
-        '''>yum.sh
+        pwd
+        ls -l
         docker run --name centos  -itd centos:centos7
         docker cp yum.sh centos:/opt/yum.sh
         docker exec centos bash /opt/yum.sh
