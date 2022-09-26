@@ -33,7 +33,8 @@ jobs:
         tar -zcf  /opt/yum.tar.gz  yum
 
         '''>yum.sh
-        docker run --name centos -v yum.sh:/opt/yum.sh -itd centos
+        docker run --name centos:7.9  -itd centos
+        docker cp yum.sh centos:/opt/yum.sh
         docker exec centos bash /opt/yum.sh
         docker cp /opt/yum.tar.gz yum.tar.gz
         mkdir artifacts
