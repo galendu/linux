@@ -16,7 +16,7 @@ jobs:
         echo '''
         #!/bin/bash
 
-        yum -y install repotrack
+        yum -y install repotrack creatrepo
         rpms=`yum list all --disablerepo="*" --enablerepo="epel" | grep -Ev "Loaded|Loading|Installed" | awk '{print $1}'`
 
         mkdir  -p  yum
