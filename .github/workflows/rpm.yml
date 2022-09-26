@@ -1,0 +1,39 @@
+jobs:     
+  epel:
+    name: 下载yum源
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+    - name: run centos7.9
+      run: |
+        echo '''
+        #!/bin/bash
+
+        yum -y install repotrack
+        rpms=`yum list all --disablerepo="*" --enablerepo="epel" | grep -Ev "Loaded|Loading|Installed" | awk '{print $1}'`
+
+        mkdir  -p  yum
+
+        for rpm  in ${rpms}
+
+        do
+
+          repotrack  ${rpm}  -p  yum
+
+        done
+
+        creatrepo  -v  yum 
+        tar -zcf  /opt/yum.tar.gz  yum
+
+        '''>yum.sh
+        docker run --name centos -v yum.sh:/opt/yum.sh -itd centos
+        docker exec centos bash /opt/yum.sh
+        docker cp /opt/yum.tar.gz yum.tar.gz
+        mkdir artifacts
+        mv *.tar.gz artifacts/
+        
+    - uses: actions/upload-artifact@v2
+      with: 
+        name: artifacts
+        path:  artifacts/*
