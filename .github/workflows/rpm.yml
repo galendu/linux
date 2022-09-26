@@ -33,7 +33,7 @@ jobs:
         tar -zcf  /opt/yum.tar.gz  yum
 
         '''>yum.sh
-        docker run --name centos:centos7  -itd centos
+        docker run --name centos  -itd centos:centos7
         docker cp yum.sh centos:/opt/yum.sh
         docker exec centos bash /opt/yum.sh
         docker cp /opt/yum.tar.gz yum.tar.gz
