@@ -13,5 +13,5 @@ do
 
 done
 
-creatrepo  -v  yum 
+createrepo  -v  yum 
 tar -zcf  /opt/yum.tar.gz  yum
