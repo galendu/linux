@@ -1,8 +1,9 @@
 #!/bin/bash
 
-yum -y install repotrack
+
 rpms=`yum list all --disablerepo="*" --enablerepo="epel" | grep -Ev "Loaded|Loading|Installed" | awk '{print $1}'`
 
+echo ${rpms}
 mkdir  -p  yum
 
 for rpm  in ${rpms}
