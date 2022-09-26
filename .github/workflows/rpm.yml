@@ -17,7 +17,7 @@ jobs:
         ls -l
         docker run --name centos  -itd centos:centos7
         docker exec centos yum -y install  createrepo
-        docker exec centos yum -y epel-release
+        docker exec centos yum -y install epel-release
         docker cp yum.sh centos:/opt/yum.sh
         docker exec centos bash /opt/yum.sh
         docker cp /opt/yum.tar.gz yum.tar.gz
