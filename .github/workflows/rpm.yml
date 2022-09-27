@@ -14,7 +14,6 @@ jobs:
     - name: run centos7.9
       run: |
         pwd
-        ls -l
         docker run --name centos  -itd centos:centos7
         docker exec centos yum -y install  createrepo
         docker exec centos yum -y install epel-release
