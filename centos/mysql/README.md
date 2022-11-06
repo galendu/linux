@@ -95,6 +95,28 @@ show status like '%下面变量%';
 
 ### mysql恢复
 
+```sql
+mysqlbinlog --base64-output=decode-rows -v --stop-position="18587074" /var/lib/mysql/mysql-bin-master.000172 > /home/172-3.sql
+---查看insert等sql语句
+mysqlbinlog mysql-bin.000044 --base64-output=decode-rows -v > /home/44bin.log
+---source 恢复用sql:
+mysqlbinlog --start-position="482" /home/mysql-bin.000098 >/home/bin-98.sql
+mysqlbinlog --start-position="4" mysql-bin-master.000001 >bin-00001.sql
+
+---会报错
+mysqlbinlog --start-position="141988582" mysql-bin.000044 |mysql -u root -P3306 -h192.168.15.7 -p'xxxxxx'
+
+mysqlbinlog --start-position="4" mysql-bin-master.000001 |mysql -u root -P13306 -h172.30.65.27 -p'xxxxxx'
+at 32939957
+32939988  开始 
+
+---mysqlbinlog --base64-output  可视化输出 
+
+---mysqlbinlog --start-position=  找到位置恢复 
+--- mysqlbinlog --base64-output  可视化输出   里面就有时间，在时间点附近找position
+
+```
+
 ### mysql操作
 
 ```sql
