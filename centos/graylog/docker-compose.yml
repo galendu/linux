@@ -1,0 +1,74 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: "mongo:5.0"
+    container_name: mongodb
+    volumes:
+      - "/data/log/mongo/mongodb_data:/data/db"
+    restart: "on-failure"
+    networks:
+      - graylog
+  elasticsearch:
+#     image: registry.cn-beijing.aliyuncs.com/duxiao/elasticsearch:7.17.7
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.7
+    container_name: elasticsearch
+    volumes:
+      - /data/log/es:/usr/share/elasticsearch/data
+    environment:
+      - http.host=0.0.0.0
+     # - transport.host=0.0.0.0
+      - network.host=0.0.0.0
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Dlog4j2.formatMsgNoLookups=true -Xms256m -Xmx256m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+    networks:
+      - graylog
+
+  graylog:
+    hostname: "server"
+    image: "${GRAYLOG_IMAGE:-graylog/graylog:5.0}"
+    depends_on:
+      elasticsearch:
+        condition: "service_started"
+      mongodb:
+        condition: "service_started"
+    entrypoint: "/usr/bin/tini -- wait-for-it elasticsearch:9200 --  /docker-entrypoint.sh"
+    environment:
+      GRAYLOG_NODE_ID_FILE: "/usr/share/graylog/data/config/node-id"
+      GRAYLOG_PASSWORD_SECRET: "7wlOETqFgsXAKpaadUizYnFlDIQj88k4Wwj6h1oY9yaimc0zBDhfr7LsFxKwgMJFVghHiyCuk1NsO1C8FYolfYRQ7Hx908vr"
+      GRAYLOG_ROOT_PASSWORD_SHA2: "c54247a77204e0b24fcf4b7168eff5eda59741dc14bf11b84175df23d20d024b"
+      GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9000"
+      GRAYLOG_HTTP_EXTERNAL_URI: "http://localhost:9000/"
+      GRAYLOG_ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
+      GRAYLOG_MONGODB_URI: "mongodb://mongodb:27017/graylog"
+    ports:
+    - "5044:5044/tcp"   # Beats
+    - "5140:5140/udp"   # Syslog
+    - "5140:5140/tcp"   # Syslog
+    - "5555:5555/tcp"   # RAW TCP
+    - "5555:5555/udp"   # RAW TCP
+    - "9000:9000/tcp"   # Server API
+    - "12201:12201/tcp" # GELF TCP
+    - "12201:12201/udp" # GELF UDP
+    #- "10000:10000/tcp" # Custom TCP port
+    #- "10000:10000/udp" # Custom UDP port
+    - "13301:13301/tcp" # Forwarder data
+    - "13302:13302/tcp" # Forwarder config
+    volumes:
+      - "/data/log/graylog/graylog_data:/usr/share/graylog/data/data"
+      - "/data/log/graylog/graylog_journal:/usr/share/graylog/data/journal"
+    restart: "on-failure"
+    networks:
+      - graylog
+
+networks:
+  graylog:
+    driver: bridge
