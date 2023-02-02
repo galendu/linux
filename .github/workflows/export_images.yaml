@@ -20,15 +20,15 @@ on:
 jobs:        
   build:
     runs-on: ubuntu-latest
-    if: ${{ (github.event.comment.body == '/image*') }}
+#     if: ${{ (github.event.comment.body == '/image*') }}
 #     runs-on: centos7.9
     steps:
     - uses: actions/checkout@v2
 
     - name: 拉取镜像并下载到本地
       run: |
-        test=${{ github.event.comment.body }}
-        echo ${{ github.event.changes.body.from }}
+        baseinfo=${{ github.event.comment.body }}
+        echo $baseinfo
         for i in ${{ github.event.inputs.oldimage_name }};
         do 
           docker pull $i 
