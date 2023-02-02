@@ -20,14 +20,14 @@ on:
 jobs:        
   build:
     runs-on: ubuntu-latest
-#     if: ${{ (github.event.comment.body == '/test all' || github.event.comment.body == '/test image')) }}
+    if: ${{ (github.event.comment.body == '/image *') }}
 #     runs-on: centos7.9
     steps:
     - uses: actions/checkout@v2
 
     - name: 拉取镜像并下载到本地
       run: |
-        echo ${{ github.event.comment.body }}
+        test=${{ github.event.comment.body }}
         echo ${{ github.event.changes.body.from }}
         for i in ${{ github.event.inputs.oldimage_name }};
         do 
