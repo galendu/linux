@@ -20,7 +20,7 @@ on:
 jobs:        
   build:
     runs-on: ubuntu-latest
-    if: ${{ (github.event.comment.body == '/image *') }}
+    if: ${{ (github.event.comment.body ~= '/image *') }}
 #     runs-on: centos7.9
     steps:
     - uses: actions/checkout@v2
