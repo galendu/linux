@@ -3,18 +3,6 @@ name: 拉取镜像到本地
 on:
   issue_comment:
     types: [created, edited]
-  workflow_dispatch:     
-    inputs:
-      oldimage_name:
-        description: '镜像名称'
-      imges_url:
-        description: '镜像仓库'
-        default: 'test'
-      server_name:
-        description: '服务名称'
-      tag_name:
-        description: '镜像tag'
-# on:
 #   workflow_dispatch:     
 #     inputs:
 #       oldimage_name:
@@ -27,20 +15,20 @@ on:
 #       tag_name:
 #         description: '镜像tag'
 
-#   push:
-#     paths:
-#       - '.github/workflows/**'
 
 
 jobs:        
   build:
     runs-on: ubuntu-latest
+#     if: ${{ (github.event.comment.body == '/test all' || github.event.comment.body == '/test image')) }}
 #     runs-on: centos7.9
     steps:
     - uses: actions/checkout@v2
 
     - name: 拉取镜像并下载到本地
       run: |
+        echo ${{ github.event.comment.body }}
+        echo ${{ github.event.changes.body.from }}
         for i in ${{ github.event.inputs.oldimage_name }};
         do 
           docker pull $i 
