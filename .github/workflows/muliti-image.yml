@@ -1,24 +1,37 @@
+name: 拉取镜像到本地
+
+on:
+  workflow_dispatch:     
+    inputs:
+      oldimage_name:
+        description: '镜像名称'
+      imges_url:
+        description: '镜像仓库'
+        default: 'test'
+      server_name:
+        description: '服务名称'
+      tag_name:
+        description: '镜像tag'
+      cpu_arch:
+        description: 'cpu架构'
+        default: 'x86'
+        
 jobs:
   build:
     runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
-      matrix:
-        target:
-          - binary
-          - dynbinary
     steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v3
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      -
-        name: Build
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          target: ${{ matrix.target }}
-          cache-from: type=gha,scope=build-${{ matrix.target }}
-          cache-to: type=gha,scope=build-${{ matrix.target }}
+    - uses: actions/checkout@v2
+    - name: 拉取镜像并下载到本地
+      run: |
+        for i in ${{ github.event.inputs.oldimage_name }};
+        do 
+          docker pull $i --platform=${{ github.event.inputs.cpu_arch }};
+          name=`echo $i | awk -F ':' '{print $1}'|awk -F '/' '{print $NF}'`
+          docker save $i -o $name.tar 
+        done
+        mkdir artifacts
+        mv *.tar artifacts/
+    - uses: actions/upload-artifact@v2
+      with: 
+        name: artifacts
+        path:  artifacts/*
