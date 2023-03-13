@@ -13,7 +13,7 @@ on:
       tag_name:
         description: '镜像tag'
       cpu_arch:
-        description: 'cpu架构'
+        description: '默认x86'
         default: ''
         
 jobs:
