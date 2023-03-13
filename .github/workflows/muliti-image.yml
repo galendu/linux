@@ -1,4 +1,4 @@
-name: 拉取镜像到本地
+name: 拉取固定cpu架构镜像到本地
 
 on:
   workflow_dispatch:     
