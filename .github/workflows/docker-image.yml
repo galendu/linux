@@ -1,0 +1,24 @@
+name: 构建镜像
+
+on:
+  workflow_dispatch:
+    inputs:
+      file_name:
+        description: '仓库路径'
+      dockerfile_path:
+        description: 'dockerfile path'
+        default: 'Dockerfile'
+      server_name:
+        description: '服务名称'
+#       tag_name:
+#         description: '镜像tag'
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file dockerfile_path --tag ${server_name}:$(date +%s)
