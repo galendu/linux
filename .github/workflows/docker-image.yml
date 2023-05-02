@@ -22,8 +22,8 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: |
-        wget ${packagefile_name} -O ${server_name}.zip
-        unzip ${server_name}.zip
-        cd ${server_name}
-        for i in `find ${dockerfile_path} -name Dockerfile|grep -v fpm-a|xargs dirname`;do cd $i &&test=`echo $i|awk -F '/' '{print $NF}'` && docker build -t ${dockerfile_path}/$test:v1  . && cd -;done
+        wget ${{ github.event.inputs.packagefile_name }} -O ${{ github.event.inputs.server_name }}.zip
+        unzip ${{ github.event.inputs.server_name }}.zip
+        cd ${{ github.event.inputs.server_name }}
+        for i in `find ${{ github.event.inputs.dockerfile_path }} -name Dockerfile|grep -v fpm-a|xargs dirname`;do cd $i &&test=`echo $i|awk -F '/' '{print $NF}'` && docker build -t ${{ github.event.inputs.dockerfile_path }}/$test:v1  . && cd -;done
         
