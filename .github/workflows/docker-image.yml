@@ -3,8 +3,8 @@ name: 构建镜像
 on:
   workflow_dispatch:
     inputs:
-      file_name:
-        description: '仓库路径'
+      packagefile_name:
+        description: '包路径'
       dockerfile_path:
         description: 'dockerfile path'
         default: 'Dockerfile'
@@ -21,4 +21,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file dockerfile_path --tag ${server_name}:$(date +%s)
+      run: |
+        wget ${packagefile_name} -O ${server_name}.zip
+        unzip ${server_name}.zip
+        cd ${server_name}
+        for i in `find ${dockerfile_path} -name Dockerfile|grep -v fpm-a|xargs dirname`;do cd $i &&test=`echo $i|awk -F '/' '{print $NF}'` && docker build -t ${dockerfile_path}/$test:v1  . && cd -;done
+        
