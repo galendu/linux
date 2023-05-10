@@ -17,6 +17,8 @@ PACKAGE_DIR="/opt/package"
 APP_DIR="/opt/source"
 JDK_NAME="jdk-xxx.tar.gz"
 ZK_NAME=""
+SCALA_NAME=""
+KAFKA_NAME=""
 # 多主机执行指令函数封装
 function remote_execute
 {
@@ -118,4 +120,57 @@ remote_execute "jps | grep QuorumPeerMain |grep -v grep | awk '{print \$1}'>/tmp
 remote_execute 'if [ -s /tmp/zk.pid ];then kill -9 `cat /tmp/zk.pid``;fi'
 remote_execute "$APP_DIR/zookeeper/bin/zkServer.sh start"
 
-# 第四步: 安装配置kafka,并启动服务
+# 第四步: 安装scale环境
+remote_transfer $LOCAL_DIR/$SCALA_NAME $PACKAGE_DIR
+remote_execute "tar -zxvf $PACKAGE_DIR/$SCALA_NAME -C $APP_DIR"
+
+cat >$LOCAL_DIR/scala.sh << EOF
+export SCALA_HOME=$APP_DIR/scala-2.12.11
+expoprt PATH=\$PATH:\$SCALA_HOME/bin
+export SCALA_HOME PATH
+EOF
+
+remote_transfer $LOCAL_DIR/scala.sh /etc/profile.d/
+remote_execute "source /etc/profile.d/scala.sh"
+remote_execute "scala --version"
+
+# 第五步: 安装配置kafka,并启动服务
+
+remote_transfer $LOCAL_DIR/$KAFKA_NAME $PACKAGE_DIR
+remote_execute "tar -xzvf $PACKAGE_DIR/$KAFKA_NAME -C $APP_DIR"
+
+remote_execute "if [ -e $APP_DIR/kafka ];then rm -rf $APP_DIR/kafka;fi"
+remote_execute "ln -sv $APP_DIR/kafka-2.12-2.6.1 $APP_DIR/kafka "
+
+remote_execute "if [ -e /data/kafka/log ];then rm -rf /data/kafka/log;fi"
+remote_execute "mkdir -p /data/kafka/log"
+
+remote_execute "sed -i '/zookeeper.connect=localhost:2181/d' $APP_DIR/kafka/config/server.properties"
+remote_execute "sed -i '\$azookeeper.connect=172.16.100.40:2181,zookeeper.connect=172.16.100.50:2181,zookeeper.connect=172.16.100.60:2181' $APP_DIR/kafka/config/server.properties"
+
+remote_execute "if [ \`hostname\`=="node01" ];then sed -i 's/broker.id=0/broker.id=100/g' $APP_DIR/kafka/config/server.properties;fi"
+remote_execute "if [ \`hostname\`=="node02" ];then sed -i 's/broker.id=0/broker.id=101/g' $APP_DIR/kafka/config/server.properties;fi"
+remote_execute "if [ \`hostname\`=="node03" ];then sed -i 's/broker.id=0/broker.id=102/g' $APP_DIR/kafka/config/server.properties;fi"
+
+remote_execute "if [ \`hostname\`=="node01" ];then sed -i '\$a/listeners=PLAINTEXT://172.16.100.40:9092' $APP_DIR/kafka/config/server.properties;fi"
+remote_execute "if [ \`hostname\`=="node02" ];then sed -i '\$a/listeners=PLAINTEXT://172.16.100.50:9092' $APP_DIR/kafka/config/server.properties;fi"
+remote_execute "if [ \`hostname\`=="node03" ];then sed -i '\$a/listeners=PLAINTEXT://172.16.100.60:9092' $APP_DIR/kafka/config/server.properties;fi"
+
+remote_execute "sed -i 's/log.dirs=\/tmp\/kafka-logs/log.dirs=\/data\/kafka\/log/g' $APP_DIR/kafka/config/server.properties"
+
+remote_execute "jps | grep Kafka | grep -v grep | awk '{print \$1}' >/tmp/kafka.pid"
+remote_execute "if [ -s /tmp/kafka.pid ];then kill -9 \`cat /tmp/kafka.pid\`;fi"
+
+remote_execute "$APP_DIR/kafka/bin/kafka-server-start.sh -daemon $APP_DIR/kafka/config/server.properties"
+
+sleep 30
+
+remote_execute "if [ \`hostname\` == "node01" ];then $APP_DIR/kafka/bin/kafka-topics.sh --zookeeper localhost --create --topic test --partitions 5 --replication-factor 2;fi "
+
+sleep 5
+
+remote_execute "if [ \`hostname\` == "node01" ];then $APP_DIR/kafka/bin/kafka-topics.sh --zookeeper localhost --topic test --describe;fi "
+
+# /opt/source/zookeeper/bin/zkServer.sh status
+# /opt/source/zookeeper/bin/kafka-topics.sh --zookeeper localhost --create --topic test --partitions 5 --replication-factor=2
+# /opt/source/zookeeper/bin/kafka-topics.sh --zookeeper localhost --topic test --describe
