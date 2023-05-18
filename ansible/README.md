@@ -54,7 +54,7 @@ host_key_checking = False    #不检测host key
 
 ### 4.ansible执行流程  
 
-
+![2023-05-17-20-44-02.png](./2023-05-17-20-44-02.png)
 
 `ansible -i /etc/ansible/hosts all -m copy -a 'src=/root/inittab dest=/tmp/' -vvv`
 
