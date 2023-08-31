@@ -30,11 +30,13 @@ jobs:
         mkdir ~/.docker/cli-plugins/
         mv docker-buildx ~/.docker/cli-plugins/docker-buildx
         chmod +x ~/.docker/cli-plugins/docker-buildx
-        docker run --privileged --rm tonistiigi/binfmt --install all
+        docker run --privileged --rm tonistiigi/binfmt --install all /dev/null 2>&1
         docker buildx version
+        echo "=================================================="
         docker buildx create --use --name mybuilder
         docker buildx ls
-        docker buildx build -t registry.cn-hangzhou.aliyuncs.com/duxiao/netshoot:v1.2 --platform=${{ github.event.inputs.cpu_architecture }} .  --push /dev/null 2>&1
+        echo "=================================================="
+        docker buildx build -t registry.cn-hangzhou.aliyuncs.com/duxiao/netshoot:v1.2 --platform=${{ github.event.inputs.cpu_architecture }} .  --push
         docker images
         ls ./*
 
