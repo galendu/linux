@@ -1,0 +1,25 @@
+name: 执行简单命令
+on:
+  workflow_dispatch:
+    inputs:
+      command1:
+        description: '基础命令1'
+        default: 'sleep 1'
+      command2:
+        description: '基础命令2'
+        default: 'sleep 1'
+      command3:
+        description: '基础命令3'
+        default: 'sleep 1'
+
+jobs:
+  create-release:
+    name: Creates release branch and tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: run command1
+        run: ${{ inputs.command1 }}
+      - name: run command2
+        run: ${{ inputs.command2 }}
+      - name: run command3
+        run: ${{ inputs.command3 }}
