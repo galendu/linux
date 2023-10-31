@@ -1,0 +1,36 @@
+apiVersion: apps/v1  
+kind: Deployment  
+metadata:  
+  name: netshoot  
+spec:  
+  replicas: 1  
+  selector:  
+    matchLabels:  
+      app: netshoot  
+  template:  
+    metadata:  
+      labels:  
+        app: netshoot  
+    spec:  
+      # hostNetwork: true #测试主机网络问题
+      containers:  
+        - name: netshoot  
+          image: docker.io/nicolaka/netshoot:latest 
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh"]
+          args: ["-c","echo 'pod ip 地址为:$(POD_IP) 所在节点为:$(NODE_IP)';iperf -s -p 8080;nc -zv www.baidu.com 443;while true; do echo test;sleep 10;done"]  
+          # 输出pod ip node ip # echo 'pod ip 地址为:$(POD_IP) 所在节点为:$(NODE_IP)
+          # 运行iperf服务器 #iperf -s -p 8080
+          # 测试端口是否通  #nc -zv www.baidu.com 443
+          # 更多参考  https://github.com/galendu/linux/tree/master/centos/netshoot
+          env:  
+            - name: NODE_IP  
+              valueFrom:  
+                fieldRef:  
+                  fieldPath: status.hostIP  
+            - name: POD_IP  
+              valueFrom:  
+                fieldRef:  
+                  fieldPath: status.podIP  
+          ports:  
+            - containerPort: 8080
