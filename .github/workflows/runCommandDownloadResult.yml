@@ -17,7 +17,6 @@ jobs:
     name: 执行命令
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
     - name: 创建制品文件保存的目录
       run: mkdir ${{ inputs.artifacts }}
     - name: run command1
@@ -25,7 +24,7 @@ jobs:
     - name: run command2
       run: ${{ inputs.command2 }}
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/download-artifact@v2.1.1
       with: 
         name: artifacts
         path:  ${{ inputs.artifacts }}/*
