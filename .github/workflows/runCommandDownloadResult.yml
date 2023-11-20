@@ -19,12 +19,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: 创建制品文件保存的目录
-      run: |
-        dir=${{ inputs.artifacts }}
-        if [ "${{ inputs.artifacts }}" == "artifacts" ];then
-          mkdir artifacts
-        else 
-          mkdir ${{ inputs.artifacts }}
+      run: mkdir ${{ inputs.artifacts }}
     - name: run command1
       run: ${{ inputs.command1 }}
     - name: run command2
