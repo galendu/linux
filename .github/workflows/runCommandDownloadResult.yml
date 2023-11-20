@@ -8,9 +8,6 @@ on:
       command2:
         description: '基础命令2'
         default: 'sleep 1'
-      command3:
-        description: '基础命令3'
-        default: 'sleep 1'
       artifacts:
         description: '将结果保存到artifacts目录'
         default: 'artifacts'
@@ -21,15 +18,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: run command1
-      run: ${{ inputs.command1 }}
-    - name: run command2
-      run: ${{ inputs.command2 }}
     - name: 创建制品文件保存的目录
       run: |
         if ${{ inputs.artifacts }} != "artifacts";then
           mkdir artifacts
         fi
+    - name: run command1
+      run: ${{ inputs.command1 }}
+    - name: run command2
+      run: ${{ inputs.command2 }}
 
     - uses: actions/upload-artifact@v2
       with: 
