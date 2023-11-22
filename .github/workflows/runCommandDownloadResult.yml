@@ -23,8 +23,7 @@ jobs:
       run: ${{ inputs.command1 }}
     - name: run command2
       run: ${{ inputs.command2 }}
-
-    - uses: actions/download-artifact@v2.1.1
+    - uses: actions/upload-artifact@v2
       with: 
         name: artifacts
         path:  ${{ inputs.artifacts }}/*
