@@ -4,7 +4,7 @@ on:
   workflow_dispatch:     
     inputs:
       oldimage_name:
-        description: '镜像地址\,可以填写多个\,默认tag为latest'  
+        description: '镜像地址'
         default: 'nginx busybox alpine'
       cpu_arch:
         description: '默认x86'
@@ -27,9 +27,9 @@ jobs:
     - name: 拉取镜像并下载到本地
       run: |
         if [[ "${{ github.event.inputs.cpu_arch }}" == "amd64" ]]; then
-               cpu_arch="amd64"
-          elif [[ "${{ github.event.inputs.cpu_arch }}" == "arm64" ]]; then
-              cpu_arch="arm64"
+               cpu_arch="amd64" 
+          else 
+               cpu_arch=${{ github.event.inputs.cpu_arch }}
         fi
         for i in ${{ github.event.inputs.oldimage_name }};
         do 
