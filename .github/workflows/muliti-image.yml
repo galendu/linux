@@ -1,10 +1,10 @@
-name: 拉取构镜像到本地
+name: 拉取镜像到本地
 
 on:
   workflow_dispatch:     
     inputs:
       oldimage_name:
-        description: '镜像地址,可以填写多个,默认tag为latest'  
+        description: '镜像地址\,可以填写多个\,默认tag为latest'  
         default: 'nginx busybox alpine'
       cpu_arch:
         description: '默认x86'
