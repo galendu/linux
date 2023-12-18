@@ -15,6 +15,15 @@ on:
       cpu_arch:
         description: '默认x86'
         default: 'amd64'
+        type: choice
+        options:
+          - amd64
+          - arm64
+          - arm/v6
+          - arm/v7
+          - 386
+          - s390
+          - ppc64le
         
 jobs:
   build:
