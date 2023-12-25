@@ -28,7 +28,7 @@ jobs:
       run: |
         cpu_arch=${{ github.event.inputs.cpu_arch }}
         echo ${cpu_arch}
-        for i in ${{ github.event.inputs.oldimage_name }};do  docker pull $i --platform=${cpu_arch} &&         name=`echo $i | awk -F ':' '{print $1}'|awk -F '/' '{print $NF}'` &&           docker save $i -o $name.tar;done
+        for i in ${{ github.event.inputs.oldimage_name }};do docker pull $i --platform=${cpu_arch} &&    name=`echo $i | awk -F ':' '{print $1}'|awk -F '/' '{print $NF}'` && docker save $i -o $name.tar;done
         mkdir artifacts
         mv *.tar artifacts/
     - uses: actions/upload-artifact@v2
