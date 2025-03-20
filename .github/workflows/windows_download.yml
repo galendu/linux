@@ -14,9 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: 下载 artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v2.0.10
         with:
           name: artifacts
           path: ./downloaded
       - name: 查看下载内容
-        run: ls -al ./downloaded
+        run: ls ./downloaded
