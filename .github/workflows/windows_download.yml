@@ -12,9 +12,7 @@ jobs:
     # 仅当上游流水线成功时执行
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - uses: actions/checkout@v2
-      - name: 下载 artifacts
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
           name: artifacts
           path: ./artifacts
