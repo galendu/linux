@@ -19,7 +19,7 @@ jobs:
           Write-Output "Fetching artifacts from: $artifact_url"
       
           $headers = @{
-            Authorization = "Bearer ${{ secrets.GITHUB_TOKEN }}"
+            Authorization = "Bearer ${{ secrets.LINSHI_TOKEN }}"
             Accept = "application/vnd.github+json"
           }
       
@@ -33,7 +33,7 @@ jobs:
               exit 1
           }
       
-          $download_url = $response.artifacts | Where-Object { $_.name -eq "artifacts" } | Select-Object -ExpandProperty archive_download_url
+          $download_url = $response.artifacts | Where-Object { $_.name -eq "test" } | Select-Object -ExpandProperty archive_download_url
       
           if (-not $download_url) {
               Write-Output "❌ Artifact URL is empty. Check artifact name."
