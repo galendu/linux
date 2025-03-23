@@ -15,6 +15,6 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: test
-          path: ./artifacts
+          path: artifacts/*
       - name: 查看下载内容
         run: ls ./artifacts
