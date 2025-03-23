@@ -12,33 +12,33 @@ jobs:
     # 仅当上游流水线成功时执行
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-- name: 获取 Artifacts 下载 URL
-  shell: powershell
-  run: |
-    $artifact_url = "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/artifacts"
-    Write-Output "Fetching artifacts from: $artifact_url"
-
-    $headers = @{
-      Authorization = "Bearer ${{ secrets.GITHUB_TOKEN }}"
-      Accept = "application/vnd.github+json"
-    }
-
-    $response = Invoke-RestMethod -Uri $artifact_url -Headers $headers
-    
-    Write-Output "Response from GitHub API:"
-    Write-Output $response | ConvertTo-Json -Depth 3  # 打印完整返回数据
-
-    if ($response.artifacts.Count -eq 0) {
-        Write-Output "❌ No artifacts found. Exiting."
-        exit 1
-    }
-
-    $download_url = $response.artifacts | Where-Object { $_.name -eq "artifacts" } | Select-Object -ExpandProperty archive_download_url
-
-    if (-not $download_url) {
-        Write-Output "❌ Artifact URL is empty. Check artifact name."
-        exit 1
-    }
-
-    Write-Output "✅ Artifact download URL: $download_url"
-    echo "DOWNLOAD_URL=$download_url" | Out-File -FilePath $env:GITHUB_ENV -Append
+      - name: 获取 Artifacts 下载 URL
+        shell: powershell
+        run: |
+          $artifact_url = "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/artifacts"
+          Write-Output "Fetching artifacts from: $artifact_url"
+      
+          $headers = @{
+            Authorization = "Bearer ${{ secrets.GITHUB_TOKEN }}"
+            Accept = "application/vnd.github+json"
+          }
+      
+          $response = Invoke-RestMethod -Uri $artifact_url -Headers $headers
+          
+          Write-Output "Response from GitHub API:"
+          Write-Output $response | ConvertTo-Json -Depth 3  # 打印完整返回数据
+      
+          if ($response.artifacts.Count -eq 0) {
+              Write-Output "❌ No artifacts found. Exiting."
+              exit 1
+          }
+      
+          $download_url = $response.artifacts | Where-Object { $_.name -eq "artifacts" } | Select-Object -ExpandProperty archive_download_url
+      
+          if (-not $download_url) {
+              Write-Output "❌ Artifact URL is empty. Check artifact name."
+              exit 1
+          }
+      
+          Write-Output "✅ Artifact download URL: $download_url"
+          echo "DOWNLOAD_URL=$download_url" | Out-File -FilePath $env:GITHUB_ENV -Append
