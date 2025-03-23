@@ -15,9 +15,7 @@ jobs:
       - name: 获取 Artifacts 下载 URL
         shell: powershell
         run: |
-          # $artifact_url = "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/artifacts"
-          # Write-Output "Fetching artifacts from: $artifact_url"
-          $artifactsUrl = Invoke-RestMethod -Uri "https://api.github.com/repos/linux/galendu/actions/workflows/muliti-image.yml/runs" `
+          $artifactsUrl = Invoke-RestMethod -Uri "https://api.github.com/repos/galendu/linux/actions/workflows/muliti-image.yml/runs" `
               -Headers $headers | Select-Object -ExpandProperty workflow_runs | Select-Object -First 1 -ExpandProperty artifacts_url
           $headers = @{
             Authorization = "Bearer ${{ secrets.LINSHI_TOKEN }}"
