@@ -42,6 +42,7 @@ jobs:
       - name: 下载制品
         shell: powershell
         run: |
+          echo "DOWNLOAD_URL=${{ env.DOWNLOAD_URL }}"
           Invoke-WebRequest -Uri "${{ env.DOWNLOAD_URL }}" -OutFile "artifacts.zip" -Headers @{ Authorization = "Bearer ${{ secrets.LINSHI_TOKEN }}" }
 
       - name: 解压缩制品
