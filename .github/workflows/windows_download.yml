@@ -2,7 +2,7 @@ name: 下载制品到Runner
 
 on:
   workflow_run:
-    workflows: ["pull1"]
+    workflows: ["pull"]
     types:
       - completed
 
