@@ -33,7 +33,7 @@ jobs:
           $artifact_url = "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/artifacts"
           Write-Output "Fetching artifacts from: $artifact_url"
 
-          $response = Invoke-RestMethod -Uri $artifact_url -Headers @{ Authorization = "Bearer ${{ secrets.GITHUB_TOKEN }}" }
+          $response = Invoke-RestMethod -Uri $artifact_url -Headers @{ Authorization = "Bearer ${{ secrets.LINSHI_TOKEN }}" }
           $download_url = $response.artifacts | Where-Object { $_.name -eq "artifacts" } | Select-Object -ExpandProperty archive_download_url
 
           Write-Output "Download URL: $download_url"
@@ -42,7 +42,7 @@ jobs:
       - name: 下载制品
         shell: pwsh
         run: |
-          Invoke-WebRequest -Uri "${{ env.DOWNLOAD_URL }}" -OutFile "artifacts.zip" -Headers @{ Authorization = "Bearer ${{ secrets.GITHUB_TOKEN }}" }
+          Invoke-WebRequest -Uri "${{ env.DOWNLOAD_URL }}" -OutFile "artifacts.zip" -Headers @{ Authorization = "Bearer ${{ secrets.LINSHI_TOKEN }}" }
 
       - name: 解压缩制品
         run: |
