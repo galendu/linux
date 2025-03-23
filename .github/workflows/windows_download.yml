@@ -6,16 +6,45 @@ on:
     types:
       - completed
 
+# jobs:
+#   download:
+#     runs-on: self-hosted
+#     # 仅当上游流水线成功时执行
+#     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+#     steps:
+#       - uses: actions/download-artifact@v4
+#         with:
+#           name: test
+#           path: ./artifacts
+
+#       - name: 查看下载内容
+#         run: ls ./artifacts
+
+
 jobs:
   download:
     runs-on: self-hosted
     # 仅当上游流水线成功时执行
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: test
-          path: ./artifacts
+      - name: 获取 Artifacts 下载 URL
+        shell: pwsh
+        run: |
+          $artifact_url = "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/artifacts"
+          Write-Output "Fetching artifacts from: $artifact_url"
 
-      - name: 查看下载内容
-        run: ls ./artifacts
+          $response = Invoke-RestMethod -Uri $artifact_url -Headers @{ Authorization = "Bearer ${{ secrets.GITHUB_TOKEN }}" }
+          $download_url = $response.artifacts | Where-Object { $_.name -eq "artifacts" } | Select-Object -ExpandProperty archive_download_url
+
+          Write-Output "Download URL: $download_url"
+          echo "DOWNLOAD_URL=$download_url" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: 下载制品
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "${{ env.DOWNLOAD_URL }}" -OutFile "artifacts.zip" -Headers @{ Authorization = "Bearer ${{ secrets.GITHUB_TOKEN }}" }
+
+      - name: 解压缩制品
+        run: |
+          Expand-Archive -Path artifacts.zip -DestinationPath downloaded-artifacts
+          Get-ChildItem downloaded-artifacts
