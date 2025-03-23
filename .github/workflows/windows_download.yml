@@ -23,7 +23,7 @@ jobs:
 
           Write-Output "Download URL: $download_url"
           echo "DOWNLOAD_URL=$download_url" | Out-File -FilePath $env:GITHUB_ENV -Append
-          Invoke-WebRequest -Uri "${{ env.DOWNLOAD_URL }}" -OutFile "artifacts.zip" -Headers @{ Authorization = "Bearer ${{ secrets.LINSHI_TOKEN }}" }
+          Invoke-WebRequest -Uri "$artifact_url" -OutFile "artifacts.zip" -Headers @{ Authorization = "Bearer ${{ secrets.LINSHI_TOKEN }}" }
 
       - name: 下载制品
         shell: powershell
