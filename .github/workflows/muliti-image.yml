@@ -38,6 +38,6 @@ jobs:
         mv *.tar artifacts/
     - uses: actions/upload-artifact@v4
       with: 
-        name: artifacts
+        name: test
         path:  artifacts/*
         retention-days: 5
