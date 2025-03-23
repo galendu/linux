@@ -2,7 +2,7 @@ name: 下载制品到Runner
 
 on:
   workflow_run:
-    workflows: ["拉取镜像到本地"]
+    workflows: ["pull"]
     types:
       - completed
 
@@ -13,6 +13,9 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/download-artifact@v4
+        with:
+          name: test
+          path: ./artifacts
 
       - name: 查看下载内容
         run: ls ./artifacts
