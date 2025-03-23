@@ -6,21 +6,6 @@ on:
     types:
       - completed
 
-# jobs:
-#   download:
-#     runs-on: self-hosted
-#     # 仅当上游流水线成功时执行
-#     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-#     steps:
-#       - uses: actions/download-artifact@v4
-#         with:
-#           name: test
-#           path: ./artifacts
-
-#       - name: 查看下载内容
-#         run: ls ./artifacts
-
-
 jobs:
   download:
     runs-on: self-hosted
@@ -38,6 +23,7 @@ jobs:
 
           Write-Output "Download URL: $download_url"
           echo "DOWNLOAD_URL=$download_url" | Out-File -FilePath $env:GITHUB_ENV -Append
+          Invoke-WebRequest -Uri "${{ env.DOWNLOAD_URL }}" -OutFile "artifacts.zip" -Headers @{ Authorization = "Bearer ${{ secrets.LINSHI_TOKEN }}" }
 
       - name: 下载制品
         shell: powershell
