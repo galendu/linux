@@ -13,8 +13,6 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/download-artifact@v4
-        with:
-          name: test.zip
-          path: artifacts/*
+
       - name: 查看下载内容
         run: ls ./artifacts
