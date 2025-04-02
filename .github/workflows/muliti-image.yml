@@ -42,7 +42,8 @@ jobs:
         scan-type: 'image'
         scan-ref: 'alpine'
         severity: "UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL"
-        format: "table,json"
+        format: "json"
+        output: trivy-report.json
         scanners: "vuln,secret,misconfig,license"
     - uses: actions/upload-artifact@v4
       with: 
