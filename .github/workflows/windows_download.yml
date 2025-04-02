@@ -15,7 +15,7 @@ jobs:
       - name: 获取 Artifacts 下载 URL
         shell: powershell
         run: |
-          $artifactsUrl = Invoke-RestMethod -Uri "https://gh-proxy.com/https://api.github.com/repos/galendu/linux/actions/workflows/muliti-image.yml/runs" `
+          $artifactsUrl = Invoke-RestMethod -Uri "https://api.github.com/repos/galendu/linux/actions/workflows/muliti-image.yml/runs" `
               -Headers $headers | Select-Object -ExpandProperty workflow_runs | Select-Object -First 1 -ExpandProperty artifacts_url
           $headers = @{
             Authorization = "Bearer ${{ secrets.LINSHI_TOKEN }}"
@@ -23,6 +23,8 @@ jobs:
           }
           echo $artifactsUrl
           # 下载制品
+          $env:HTTPS_RPROXY=127.0.0.1:2080
+          $envHTTP_RPROXY=127.0.0.1:2080
           $artifacts = Invoke-RestMethod -Uri $artifactsUrl -Headers $headers
           $artifacts.artifacts | ForEach-Object {
               $url = $_.archive_download_url
