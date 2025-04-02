@@ -23,8 +23,9 @@ jobs:
           }
           echo $artifactsUrl
           # 下载制品
-          $env:HTTPS_RPROXY=127.0.0.1:2080
-          $env:HTTP_RPROXY=127.0.0.1:2080
+          $env:HTTPS_PROXY=127.0.0.1:2080
+          $env:HTTP_PROXY=127.0.0.1:2080
+          curl google.com
           $artifacts = Invoke-RestMethod -Uri $artifactsUrl -Headers $headers
           $artifacts.artifacts | ForEach-Object {
               $url = $_.archive_download_url
