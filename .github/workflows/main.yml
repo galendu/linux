@@ -11,12 +11,15 @@ on:
         default: 'registry.cn-beijing.aliyuncs.com/duxiao'
       server_name:
         description: '服务名称'
+        default: 'devops'
+        type: choice
+        options:
+          - k8s
+          - netshoot
+          - java
       tag_name:
         description: '镜像tag'
 
-#   push:
-#     paths:
-#       - '.github/workflows/**'
 
 
 jobs:        
@@ -27,38 +30,8 @@ jobs:
 
     - name: pull
       run: |
-        docker login -u ${{ secrets.ALI_USER}} -p ${{ secrets.ALI_PASSWORD}} registry.cn-beijing.aliyuncs.com/duxiao
+        docker login -u ${{ secrets.ALI_USER}} -p ${{ secrets.ALI_PASSWORD}} registry.cn-beijing.aliyuncs.com
         docker pull ${{ github.event.inputs.oldimage_name }}
         docker tag ${{ github.event.inputs.oldimage_name }}  ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
         echo  ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
         docker  push ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
-        #mkdir artifacts
-        #mv jenkins.tar artifacts/
-
-
-        
-#     #- uses: actions/upload-artifact@v2
-#       with: 
-#         name: artifacts
-#         path:  artifacts/*
-
-
-#   job1:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - run: echo "job1"
-#   job2:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - run: sleep 5
-#     needs: job1
-#   job3:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - run: sleep 10
-#     needs: job1
-#   job4:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - run: echo "job4"
-#     needs: [job2, job3]
