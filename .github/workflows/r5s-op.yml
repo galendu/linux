@@ -9,12 +9,16 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential ccache ecj fastjar file g++ gawk gettext git java-propose-classpath libelf-dev libncurses5-dev libncursesw5-dev libssl-dev python3 unzip wget python3-setuptools python3-dev rsync subversion swig time xsltproc zlib1g-dev python3-pip python3-pyelftools zstd
+          sudo apt-get install -y zstd build-essential ccache ecj fastjar file g++ gawk gettext git java-propose-classpath libelf-dev libncurses5-dev libncursesw5-dev libssl-dev python3 unzip wget python3-setuptools python3-dev rsync subversion swig time xsltproc zlib1g-dev python3-pip python3-pyelftools
+
+      - name: Install pyelftools via pip
+        run: |
+          pip3 install pyelftools
 
       - name: Download OpenWrt SDK
         run: |
           wget https://downloads.openwrt.org/releases/24.10.0/targets/rockchip/armv8/openwrt-sdk-24.10.0-rockchip-armv8_gcc-13.3.0_musl.Linux-x86_64.tar.zst
-          tar -I zstd -xf openwrt-sdk-24.10.0-rockchip-armv8_gcc-13.3.0_musl.Linux-x86_64.tar.zst
+          tar -I zstd -xJf openwrt-sdk-24.10.0-rockchip-armv8_gcc-13.3.0_musl.Linux-x86_64.tar.zst
           mv openwrt-sdk-24.10.0-rockchip-armv8_gcc-13.3.0_musl.Linux-x86_64 sdk
 
       - name: Update and install feeds
@@ -22,11 +26,13 @@ jobs:
         run: |
           ./scripts/feeds update -a
           ./scripts/feeds install -a
+
       - name: Configure build (skip menuconfig)
         working-directory: sdk
         run: |
           echo "CONFIG_PACKAGE_kmod-wireguard=y" >> .config
           make defconfig
+
       - name: Build WireGuard kernel module (kmod-wireguard)
         working-directory: sdk
         run: make package/wireguard-kernel/compile V=s -j$(nproc)
