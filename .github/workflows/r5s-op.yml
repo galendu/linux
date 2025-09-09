@@ -1,0 +1,55 @@
+name: Build WireGuard Packages for iStoreOS (based on OpenWrt 24.10)
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libncurses5-dev zlib1g-dev gawk git ccache gettext libssl-dev xsltproc wget unzip python3 python3-distutils
+
+      - name: Download OpenWrt SDK
+        run: |
+          wget https://downloads.openwrt.org/releases/24.10.0/targets/rockchip/armv8/openwrt-sdk-24.10.0-rockchip-armv8_gcc-13.3.0_musl.Linux-x86_64.tar.xz
+          tar -xJf openwrt-sdk-24.10.0-rockchip-armv8_gcc-13.3.0_musl.Linux-x86_64.tar.xz
+          mv openwrt-sdk-24.10.0-rockchip-armv8_gcc-13.3.0_musl.Linux-x86_64 sdk
+
+      - name: Update and install feeds
+        working-directory: sdk
+        run: |
+          ./scripts/feeds update -a
+          ./scripts/feeds install -a
+
+      - name: Build WireGuard kernel module (kmod-wireguard)
+        working-directory: sdk
+        run: make package/wireguard-kernel/compile V=s -j$(nproc)
+
+      - name: Build WireGuard tools
+        working-directory: sdk
+        run: make package/wireguard-tools/compile V=s -j$(nproc)
+
+      - name: Build LuCI proto wireguard
+        working-directory: sdk
+        run: make package/luci-proto-wireguard/compile V=s -j$(nproc)
+
+      - name: Build LuCI app wireguard
+        working-directory: sdk
+        run: make package/luci-app-wireguard/compile V=s -j$(nproc)
+
+      - name: Build LuCI i18n wireguard (Chinese)
+        working-directory: sdk
+        run: make package/luci-i18n-wireguard-zh-cn/compile V=s -j$(nproc)
+
+      - name: Collect built packages
+        run: |
+          mkdir -p artifacts
+          find sdk/bin -name "*.ipk" -exec cp {} artifacts/ \;
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: wireguard-packages
+          path: artifacts/
