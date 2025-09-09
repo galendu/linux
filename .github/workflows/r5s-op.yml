@@ -17,8 +17,8 @@ jobs:
 
       - name: Download OpenWrt SDK
         run: |
-          wget https://downloads.openwrt.org/releases/24.10.0/targets/rockchip/armv8/openwrt-sdk-24.10.0-rockchip-armv8_gcc-13.3.0_musl.Linux-x86_64.tar.zst
-          tar -I zstd -xf openwrt-sdk-24.10.0-rockchip-armv8_gcc-13.3.0_musl.Linux-x86_64.tar.zst
+          wget https://downloads.openwrt.org/releases/24.10.0/targets/rockchip/armv8/openwrt-sdk-24.10.0-rockchip-armv8_gcc-13.3.0_musl.Linux-x86_64.tar.xz
+          tar -xJf openwrt-sdk-24.10.0-rockchip-armv8_gcc-13.3.0_musl.Linux-x86_64.tar.xz
           mv openwrt-sdk-24.10.0-rockchip-armv8_gcc-13.3.0_musl.Linux-x86_64 sdk
 
       - name: Update and install feeds
@@ -35,7 +35,7 @@ jobs:
 
       - name: Build WireGuard kernel module (kmod-wireguard)
         working-directory: sdk
-        run: make package/wireguard-kernel/compile V=s -j$(nproc)
+        run: make package/kmod-wireguard/compile V=s -j$(nproc)
 
       - name: Build WireGuard tools
         working-directory: sdk
