@@ -24,6 +24,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
+    - name: 当前出口ip
+      run: |
+        curl http://ifconfig.me/
     - name: 拉取镜像并下载到本地
       run: |
         cpu_arch=${{ github.event.inputs.cpu_arch }}
