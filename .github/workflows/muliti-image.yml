@@ -18,7 +18,12 @@ on:
           - 386
           - s390
           - ppc64le
-        
+      debug_enabled:
+        type: boolean
+        description: 'Run the build with tmate debugging enabled'
+        required: false
+        default: false
+
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -27,6 +32,13 @@ jobs:
     - name: 当前出口ip
       run: |
         curl http://ifconfig.me/
+    - name: Setup tmate session
+      id: tmate
+      if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
+      uses: mxschmitt/action-tmate@v3
+      with:
+        limit-access-to-actor: true
+        detached: true
     - name: 拉取镜像并下载到本地
       run: |
         cpu_arch=${{ github.event.inputs.cpu_arch }}
