@@ -14,10 +14,10 @@ on:
         default: 'devops'
         type: choice
         options:
+          - default
           - k8s
           - netshoot
           - java
-          - mul
       tag_name:
         description: '镜像tag'
       cpu_type:
