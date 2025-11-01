@@ -22,7 +22,7 @@ on:
         description: '镜像tag'
       cpu_type:
         default: 'linux/amd64'
-        description: 'linux/amd64,linux/arm64/v8'
+        description: "linux/amd64,linux/arm64/v8"
 
 jobs:        
   build:
