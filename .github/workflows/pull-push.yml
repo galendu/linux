@@ -19,8 +19,9 @@ on:
           - java
       tag_name:
         description: '镜像tag'
-
-
+      cpu_type:
+        default: 'linux/amd64'
+        description: 'linux/amd64,linux/arm64/v8'
 
 jobs:        
   build:
@@ -31,7 +32,7 @@ jobs:
     - name: pull
       run: |
         docker login -u ${{ secrets.ALI_USER}} -p ${{ secrets.ALI_PASSWORD}} registry.cn-beijing.aliyuncs.com
-        docker pull ${{ github.event.inputs.oldimage_name }}
+        docker pull --platform ${{ github.event.inputs.cpu_type }} ${{ github.event.inputs.oldimage_name }}
         docker tag ${{ github.event.inputs.oldimage_name }}  ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
         echo  ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
         docker  push ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
