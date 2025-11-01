@@ -11,7 +11,6 @@ on:
         default: 'registry.cn-beijing.aliyuncs.com/duxiao'
       server_name:
         description: '服务名称'
-        default: 'devops'
         type: choice
         options:
           - default
@@ -22,7 +21,6 @@ on:
         description: '镜像tag'
       cpu_type:
         default: 'amd64'
-        description: "amd64,arm64"
 
 jobs:        
   build:
