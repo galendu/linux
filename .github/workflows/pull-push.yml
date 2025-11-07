@@ -30,11 +30,12 @@ jobs:
 
     - name: pull
       run: |
-        if ${{ github.event.inputs.cpu_type }} == "amd64" ;then
+        if [ "${{ github.event.inputs.cpu_type }}" = "amd64" ]; then
           cpu_type="linux/amd64"
-        else if ${{ github.event.inputs.cpu_type }} == "arm64"
+        elif [ "${{ github.event.inputs.cpu_type }}" = "arm64" ]; then
           cpu_type="linux/arm64/v8"
         fi
+        echo "cpu_type=${cpu_type}"
         docker login -u ${{ secrets.ALI_USER}} -p ${{ secrets.ALI_PASSWORD}} registry.cn-beijing.aliyuncs.com
         docker pull --platform ${cpu_type} ${{ github.event.inputs.oldimage_name }}
         docker tag ${{ github.event.inputs.oldimage_name }}  ${{ github.event.inputs.imges_url }}/${{ github.event.inputs.server_name }}:${{ github.event.inputs.tag_name }}
