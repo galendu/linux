@@ -15,10 +15,10 @@ on:
           - amd64
           - arm64
           - arm/v7
-      debug_enabled:
-        type: boolean
-        description: '启用 tmate 调试 (需修改仓库权限)'
-        default: false
+      # debug_enabled:
+      #   type: boolean
+      #   description: '启用 tmate 调试 (需修改仓库权限)'
+      #   default: false
 
 permissions:
   contents: read
@@ -37,11 +37,11 @@ jobs:
         run: curl -s https://ifconfig.me/ && echo ""
 
       # 2. 条件执行调试 (需解决权限问题)
-      - name: Setup tmate session
-        if: ${{ inputs.debug_enabled }}
-        uses: mxschmitt/action-tmate@v3
-        with:
-          limit-access-to-actor: true
+      # - name: Setup tmate session
+      #   if: ${{ inputs.debug_enabled }}
+      #   uses: mxschmitt/action-tmate@v3
+      #   with:
+      #     limit-access-to-actor: true
 
       # 3. 拉取并保存镜像 (Bash 优化版)
       - name: Pull and Save Images
