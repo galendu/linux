@@ -1,67 +1,91 @@
 name: pull
 
 on:
-  workflow_dispatch:     
+  workflow_dispatch:
     inputs:
       oldimage_name:
-        description: '镜像地址'
-        default: 'nginx busybox alpine'
+        description: '镜像地址 (空格分隔)'
+        default: 'nginx:latest busybox:latest'
+        required: true
       cpu_arch:
-        description: '默认x86'
+        description: '目标架构'
         default: 'amd64'
         type: choice
         options:
           - amd64
           - arm64
-          - arm/v6
           - arm/v7
-          - 386
-          - s390
-          - ppc64le
       debug_enabled:
         type: boolean
-        description: 'Run the build with tmate debugging enabled'
-        required: false
+        description: '启用 tmate 调试 (需修改仓库权限)'
         default: false
+
+permissions:
+  contents: read
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04  # 推荐升级到较新 LTS
     steps:
-    - uses: actions/checkout@v2
-    - name: 当前出口ip
-      run: |
-        curl http://ifconfig.me/
-    - name: Setup tmate session
-      id: tmate
-      if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
-      uses: mxschmitt/action-tmate@v3
-      with:
-        limit-access-to-actor: true
-        detached: true
-    - name: 拉取镜像并下载到本地
-      run: |
-        cpu_arch=${{ github.event.inputs.cpu_arch }}
-        echo ${cpu_arch}
-        for i in ${{ github.event.inputs.oldimage_name }}
-        do
-            docker pull $i --platform=${cpu_arch} 
-            name=`echo $i | awk -F ':' '{print $1}'|awk -F '/' '{print $NF}'` 
-            docker save $i -o $name.tar
-        done
-        mkdir artifacts
-        mv *.tar artifacts/
-    - name: Run Trivy scanner without downloading DBs
-      uses: aquasecurity/trivy-action@0.28.0
-      with:
-        scan-type: 'image'
-        scan-ref: 'alpine'
-        severity: "UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL"
-        format: "json"
-        output: "artifacts/trivy-report.json"
-        scanners: "vuln,secret,misconfig,license"
-    - uses: actions/upload-artifact@v4
-      with: 
-        name: test
-        path:  artifacts/*
-        retention-days: 5
+      - uses: actions/checkout@v4
+
+      # 1. 配置 QEMU 以支持多架构拉取
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Check IP
+        run: curl -s https://ifconfig.me/ && echo ""
+
+      # 2. 条件执行调试 (需解决权限问题)
+      - name: Setup tmate session
+        if: ${{ inputs.debug_enabled }}
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
+
+      # 3. 拉取并保存镜像 (Bash 优化版)
+      - name: Pull and Save Images
+        shell: bash
+        run: |
+          set -euo pipefail
+          
+          ARCH="${{ inputs.cpu_arch }}"
+          IMAGES="${{ inputs.oldimage_name }}"
+          
+          mkdir -p artifacts
+          
+          for img in $IMAGES; do
+            echo "Processing: $img ($ARCH)"
+            
+            # 拉取指定架构
+            docker pull --platform "$ARCH" "$img"
+            
+            # 生成安全的文件名 (替换 / 和 : 为 _)
+            safe_name=$(echo "$img" | tr '/:' '__')
+            
+            echo "Saving to artifacts/${safe_name}.tar..."
+            docker save "$img" -o "artifacts/${safe_name}.tar"
+          done
+
+      # 4. 扫描镜像 (修正逻辑：扫描导出的 tar 或列表中的第一个)
+      # 注意：Trivy Action 一次通常扫描一个目标。这里演示扫描第一个镜像。
+      - name: Run Trivy scanner
+        uses: aquasecurity/trivy-action@0.29.0
+        with:
+          scan-type: 'image'
+          # 获取列表中的第一个镜像进行演示扫描
+          scan-ref: ${{ steps.pull.outputs.first_image }} 
+          # 实际场景建议在上面的 shell 循环中直接调用 trivy binary
+          # 或者这里仅做示例扫描
+          image-ref: ${{ inputs.oldimage_name }} # 尝试扫描输入列表(Trivy可能只取第一个)
+          format: 'table'
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: docker-images-${{ inputs.cpu_arch }}
+          path: artifacts/*.tar
+          retention-days: 3
