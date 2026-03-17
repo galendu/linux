@@ -28,10 +28,11 @@ jobs:
     runs-on: ubuntu-22.04  # 推荐升级到较新 LTS
     steps:
       - uses: actions/checkout@v4
+      
 
       # 1. 配置 QEMU 以支持多架构拉取
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v3
 
       - name: Check IP
         run: curl -s https://ifconfig.me/ && echo ""
@@ -69,20 +70,20 @@ jobs:
 
       # 4. 扫描镜像 (修正逻辑：扫描导出的 tar 或列表中的第一个)
       # 注意：Trivy Action 一次通常扫描一个目标。这里演示扫描第一个镜像。
-      - name: Run Trivy scanner
-        uses: aquasecurity/trivy-action@0.29.0
-        with:
-          scan-type: 'image'
-          # 获取列表中的第一个镜像进行演示扫描
-          scan-ref: ${{ steps.pull.outputs.first_image }} 
-          # 实际场景建议在上面的 shell 循环中直接调用 trivy binary
-          # 或者这里仅做示例扫描
-          image-ref: ${{ inputs.oldimage_name }} # 尝试扫描输入列表(Trivy可能只取第一个)
-          format: 'table'
-          exit-code: '0'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
+      # - name: Run Trivy scanner
+      #   uses: aquasecurity/trivy-action@0.29.0
+      #   with:
+      #     scan-type: 'image'
+      #     # 获取列表中的第一个镜像进行演示扫描
+      #     scan-ref: ${{ steps.pull.outputs.first_image }} 
+      #     # 实际场景建议在上面的 shell 循环中直接调用 trivy binary
+      #     # 或者这里仅做示例扫描
+      #     image-ref: ${{ inputs.oldimage_name }} # 尝试扫描输入列表(Trivy可能只取第一个)
+      #     format: 'table'
+      #     exit-code: '0'
+      #     ignore-unfixed: true
+      #     vuln-type: 'os,library'
+      #     severity: 'CRITICAL,HIGH'
 
       - uses: actions/upload-artifact@v4
         with:
